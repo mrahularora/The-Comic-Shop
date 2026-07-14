@@ -1,0 +1,56 @@
+table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-bottom: 20px;
+}
+
+th,
+td {
+     border: 1px solid #ddd;
+     padding: 5px;
+     text-align: center;
+}
+
+th {
+     background-color: #f2f2f2;
+}
+
+.tblProducts img {
+     max-width: 30%;
+     height: auto;
+}
+
+.action-buttons {
+     display: flex;
+     gap: 2px;
+}
+
+
+.upload-button {
+     display: inline-block;
+     cursor: pointer;
+}
+
+.upload-button img {
+     width: 100px;
+     height: auto;
+}
+
+input[type="file"] {
+     display: none;
+}
+
+.formImageUploaded {
+     height: 110px;
+     width: 110px;
+     background-color: lightgrey;
+     border: 2px dashed grey;
+     border-radius: 3px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.formImageUploaded span {
+     margin-left: 10px;
+}

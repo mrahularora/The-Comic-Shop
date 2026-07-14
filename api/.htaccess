@@ -1,0 +1,23 @@
+# This file allows us to set some custom settings for this file's
+# parent folder and it's sub folders. The logic is as follows:
+#
+# If a child path of this path is not a folder, file, or link/shortcut,
+# execute the file index.php and pass the child path as the get 
+# parameter "url".
+#
+# QSA - Query sting append. Preserve and get parameters and append them
+#       to the end of the replacement query string. 
+#       Eg. In this instance, if we request /authors?test=yes,
+#       index.php?url=authors&test=yes will be executed.
+#
+# L - This is the last .htaccess file to check.
+#     If any subfolders have .htaccess files, they will be ignored.
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+

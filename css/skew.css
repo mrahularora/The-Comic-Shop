@@ -1,0 +1,44 @@
+.textoverimage {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.textoverimage img {
+  width: 100%;
+  height: auto;
+  display: block; /* Ensure the image does not leave gaps */
+}
+
+.textoverimage .text {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for exact centering */
+  background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+  color: #f1f1f1;
+  padding: 20px;
+  width: 100%;
+  text-align: center; /* Center text inside the div */
+  z-index: 1; /* Ensure text is on top of the image */
+}
+
+  .skew-container {
+    margin-top:50px;
+    position: relative;
+    width: 100%;
+    height: 600px; /* Adjust as needed */
+    overflow: hidden; /* Ensure no overflow is visible */
+    transform: skewY(-4deg); /* Skew the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    background-color: #222; /* Optional background color for the skewed div */
+}
+
+.skew-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

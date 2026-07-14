@@ -13,6 +13,11 @@ $order = new Order($db->getConnection());
 $errors = [];
 
 $name = $contact = $address = $zip_code = $card_number = $card_expiry = $card_cvv = $cardholder_name = '';
+$cart_items = $cart->getCart();
+if (empty($cart_items)) {
+    header('Location: cart.php');
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
@@ -74,7 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $cart_items = $cart->getCart();
         $user_id = $_SESSION['user_id'];
 
         $order_id = $order->placeOrder($user_id, $cart_items, $contact, $address, $zip_code);

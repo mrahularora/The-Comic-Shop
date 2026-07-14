@@ -34,9 +34,15 @@ $subtotal = 0;
 $total_items = 0; // Initialize total items count
 foreach ($cart_items as $product_id => $quantity) {
     $prod = $product->getProductById($product_id);
+    if (!$prod) {
+        $cart->removeItem($product_id);
+        continue;
+    }
     $subtotal += $prod['price'] * $quantity;
     $total_items += $quantity; // Count total items
 }
+$cart_items = $cart->getCart();
+$is_cart_empty = empty($cart_items);
 $tax_rate = 0.13; // 13%
 $tax = $subtotal * $tax_rate;
 $total = $subtotal + $tax;
@@ -73,6 +79,9 @@ $total = $subtotal + $tax;
             <?php
             foreach ($cart_items as $product_id => $quantity) {
                 $prod = $product->getProductById($product_id);
+                if (!$prod) {
+                    continue;
+                }
                 $item_total = $prod['price'] * $quantity;
             ?>
             

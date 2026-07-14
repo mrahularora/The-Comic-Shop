@@ -46,12 +46,12 @@ $products = $objProduct->getStaticProducts();
                     <?php
                     if (!empty($products)) {
                          foreach ($products as $product) {
-                              $pname = $product["name"];
-                              $pdescription = $product["description"];
-                              $plongdescription = $product["long_description"];
-                              $pprice = $product["price"];
-                              $pimage = "" . $product["image"];
-                              $pid = $product['id'];
+                              $pname = htmlspecialchars($product["name"]);
+                              $pdescription = htmlspecialchars($product["description"]);
+                              $plongdescription = htmlspecialchars($product["long_description"]);
+                              $pprice = htmlspecialchars($product["price"]);
+                              $pimage = htmlspecialchars($product["image"]);
+                              $pid = (int) $product['id'];
 
                               echo '<tr>
                                         <td><img src="' . $pimage . '" alt="' . $pname . '"></td>

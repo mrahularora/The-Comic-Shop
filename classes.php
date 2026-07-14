@@ -161,6 +161,12 @@ class ShoppingCart
     private $maxQuantity = 5;
     public function addToCart($product_id, $quantity)
     {
+        $product_id = (int) $product_id;
+        $quantity = (int) $quantity;
+        if ($product_id <= 0 || $quantity <= 0) {
+            return 'error';
+        }
+
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
@@ -188,6 +194,7 @@ class ShoppingCart
 
     public function removeItem($product_id)
     {
+        $product_id = (int) $product_id;
         if (isset($_SESSION['cart'][$product_id])) {
             unset($_SESSION['cart'][$product_id]);
         }
@@ -195,6 +202,8 @@ class ShoppingCart
 
     public function updateQuantity($product_id, $quantity)
     {
+        $product_id = (int) $product_id;
+        $quantity = (int) $quantity;
         if ($quantity <= 0) {
             $this->removeItem($product_id);
             return 'success'; // Item removed
@@ -224,6 +233,10 @@ class Order
 
     public function placeOrder($user_id, $cart, $contact, $address, $zip_code)
     {
+        if (empty($cart)) {
+            throw new InvalidArgumentException('Cannot place an order with an empty cart.');
+        }
+
         $this->db->beginTransaction();
         try {
             // Calculate the total price for the order

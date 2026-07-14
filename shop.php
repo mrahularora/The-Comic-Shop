@@ -44,23 +44,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (count($products) > 0) {
             foreach ($products as $product) {
-                $pname = $product["name"];
-                $pdescription = $product["description"];
-                $pprice = $product["price"];
-                $pimage = $product["image"];
+                $pid = (int) $product['id'];
+                $pname = htmlspecialchars($product["name"]);
+                $pdescription = htmlspecialchars($product["description"]);
+                $pprice = htmlspecialchars($product["price"]);
+                $pimage = htmlspecialchars($product["image"]);
 
                 echo '
                 <div class="product">
                 <form method="post">
-                <input type="hidden" name="product_id" value="'.$product['id'].'">
-                <a href="viewProduct.php?id='.$product['id'].'">
+                <input type="hidden" name="product_id" value="'.$pid.'">
+                <a href="viewProduct.php?id='.$pid.'">
                 <img src="'.$pimage.'" alt="Product.'.$pname.'" width="100%" class="scale" />
                 </a>
                 <p class="pname">'.$pname.'</p> 
                 <p class="desc">'. $pdescription.'<br /><br />
                 <p class="price">$'.$pprice.'</p>
                 <div><button class="button">Add to Cart</button>
-                <a href="viewProduct.php?id='.$product['id'].'" class="vbutton">View Comic</a></div>
+                <a href="viewProduct.php?id='.$pid.'" class="vbutton">View Comic</a></div>
                 </form>
                 </div>
                 

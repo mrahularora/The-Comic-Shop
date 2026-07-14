@@ -130,7 +130,7 @@ class PDF extends FPDF
 }
 
 if (!empty($_GET["order_id"])) {
-     $orderId = $_GET['order_id'];
+     $orderId = (int) $_GET['order_id'];
      $pdf = new PDF();
      $pdf->SetAutoPageBreak(true, 20);
      $pdf->AddPage();
@@ -141,6 +141,10 @@ if (!empty($_GET["order_id"])) {
      $order = new Order($connection);
 
      $orderDetails = $order->getOrderDetails($orderId);
+     if (empty($orderDetails)) {
+          http_response_code(404);
+          exit('Order not found.');
+     }
 
      $customerName = $orderDetails[0]['customer'];
      $customerEmail = $orderDetails[0]['customer_email'];

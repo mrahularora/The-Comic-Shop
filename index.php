@@ -71,22 +71,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php
         if (count($products) > 0) {
             foreach ($products as $product) {
-                $pname = $product["name"];
-                $pdescription = $product["description"];
-                $pprice = $product["price"];
-                $pimage = $product["image"];
+                $pid = (int) $product['id'];
+                $pname = htmlspecialchars($product["name"]);
+                $pdescription = htmlspecialchars($product["description"]);
+                $pprice = htmlspecialchars($product["price"]);
+                $pimage = htmlspecialchars($product["image"]);
 
                 echo '
                 <div class="product">
                     <form method="post">
-                        <input type="hidden" name="product_id" value="'.$product['id'].'">
+                        <input type="hidden" name="product_id" value="'.$pid.'">
                         <img src="'.$pimage.'" width="100%" alt="Product.'.$pname.'" class="scale" />
                         <p class="pname">'.$pname.'</p> 
                         <p class="desc">'.$pdescription.'</p>
                         <p class="price">$'.$pprice.'</p>
                         <div>
                             <button class="button">Add to Cart</button>
-                            <a href="viewProduct.php?id='.$product['id'].'" class="vbutton">View Comic</a>
+                            <a href="viewProduct.php?id='.$pid.'" class="vbutton">View Comic</a>
                         </div>
                     </form>
                 </div>';
@@ -115,22 +116,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php
         if (count($dcproducts) > 0) {
             foreach ($dcproducts as $dcproduct) {
-                $dcpname = $dcproduct["name"];
-                $dcpdescription = $dcproduct["description"];
-                $dcpprice = $dcproduct["price"];
-                $dcpimage = $dcproduct["image"];
+                $dcpid = (int) $dcproduct['id'];
+                $dcpname = htmlspecialchars($dcproduct["name"]);
+                $dcpdescription = htmlspecialchars($dcproduct["description"]);
+                $dcpprice = htmlspecialchars($dcproduct["price"]);
+                $dcpimage = htmlspecialchars($dcproduct["image"]);
 
                 echo '
                 <div class="product">
                     <form method="post">
-                        <input type="hidden" name="product_id" value="'.$dcproduct['id'].'">
+                        <input type="hidden" name="product_id" value="'.$dcpid.'">
                         <img src="'.$dcpimage.'" width="100%"  alt="Product.'.$dcpname.'" class="scale" />
                         <p class="pname">'.$dcpname.'</p> 
                         <p class="desc">'.$dcpdescription.'</p>
                         <p class="price">$'.$dcpprice.'</p>
                         <div>
                             <button class="button">Add to Cart</button>
-                            <a href="viewProduct.php?id='.$dcproduct['id'].'" class="vbutton">View Comic</a>
+                            <a href="viewProduct.php?id='.$dcpid.'" class="vbutton">View Comic</a>
                         </div>
                     </form>
                 </div>';
@@ -150,22 +152,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php
         if (count($otherproducts) > 0) {
             foreach ($otherproducts as $otherproduct) {
-                $otherpname = $otherproduct["name"];
-                $otherpdescription = $otherproduct["description"];
-                $otherpprice = $otherproduct["price"];
-                $otherpimage = $otherproduct["image"];
+                $otherpid = (int) $otherproduct['id'];
+                $otherpname = htmlspecialchars($otherproduct["name"]);
+                $otherpdescription = htmlspecialchars($otherproduct["description"]);
+                $otherpprice = htmlspecialchars($otherproduct["price"]);
+                $otherpimage = htmlspecialchars($otherproduct["image"]);
 
                 echo '
                 <div class="product">
                     <form method="post">
-                        <input type="hidden" name="product_id" value="'.$otherproduct['id'].'">
+                        <input type="hidden" name="product_id" value="'.$otherpid.'">
                         <img src="'.$otherpimage.'" width="100%" alt="Product.'.$otherpname.'" class="scale" />
                         <p class="pname">'.$otherpname.'</p> 
                         <p class="desc">'.$otherpdescription.'</p>
                         <p class="price">$'.$otherpprice.'</p>
                         <div>
                             <button class="button">Add to Cart</button>
-                            <a href="viewProduct.php?id='.$otherproduct['id'].'" class="vbutton">View Comic</a>
+                            <a href="viewProduct.php?id='.$otherpid.'" class="vbutton">View Comic</a>
                         </div>
                     </form>
                 </div>';

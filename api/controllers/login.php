@@ -5,8 +5,12 @@ class LoginController
 {
     private $pdo;
 
-    public function __construct($pdo)
+    public function __construct($pdo = null)
     {
+        if ($pdo === null) {
+            $database = new Database();
+            $pdo = $database->getConnection();
+        }
         $this->pdo = $pdo;
     }
 
@@ -53,7 +57,7 @@ class LoginController
                 "message" => "Login successful."
             ]);
         }
-        setcookie('user_id', $user['id'], time() + 3600, '/', '', true, true);
+
         http_response_code(401);
         return json_encode([
             "status" => "error",
@@ -61,12 +65,3 @@ class LoginController
         ]);
     }
 }
-
-// Instantiate the Database and LoginController
-$database = new Database();
-$pdo = $database->getConnection();
-$loginController = new LoginController($pdo);
-
-// Call the login method and output the result
-echo $loginController->login();
-?>

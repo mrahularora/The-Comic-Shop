@@ -33,7 +33,10 @@ if (in_array($pathdata[0], $routeClasses)) {
             if ($pathdata[0] == "login") {
                 echo $routeClassInstance->login();
             } else if ($pathdata[0] == "signup") {
-                echo $routeClassInstance->signup();
+                $result = $routeClassInstance->signup();
+                if ($result !== null) {
+                    echo $result;
+                }
             }
         } else {
             http_response_code(405);

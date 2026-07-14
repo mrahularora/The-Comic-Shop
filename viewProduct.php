@@ -13,6 +13,9 @@ if (isset($_GET['id'])) {
 } else {
     return redirect();
 }
+if (!$prod) {
+    return redirect();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cart->addToCart($_POST['product_id'], $_POST['quantity']);
@@ -40,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="hidden" name="product_id" value="<?= $prod['id'] ?>">
                     <div class="quantity-group">
                         <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" min="1" value="1">
+                        <input type="number" id="quantity" name="quantity" min="1" max="5" value="1">
                     </div>
                     <button type="submit" class="vbutton">Add to Cart</button>
                 </form>

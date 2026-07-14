@@ -5,9 +5,9 @@
                 </div>
                 <div class="footer-column">
                     <h3>Comic Books</h3>
-                    <p><a href="shop.php/marvel">Marvel Comics</a></p>
-                    <p><a href="shop.php/dc">DC Comics</a></p>
-                    <p><a href="shop.php/other">Other Comics</a></p>
+                    <p><a href="shop.php">Marvel Comics</a></p>
+                    <p><a href="shop.php">DC Comics</a></p>
+                    <p><a href="shop.php">Other Comics</a></p>
                 </div>
                 <div class="footer-column">
                     <h3>Contact Us</h3>
@@ -18,9 +18,6 @@
             </div>
                 <p class="footer-center">&copy; <?php echo date("Y"); ?> The Comic Book Shop. All rights reserved.</p>
                 <script src="assets/js/script.js" defer></script>
-                
-                <script src="assets/js/imageChange.js"></script>
-                <script >initializeImagePreview('productImage', '.upload-button img');</script>
         </footer>
     </body>
 </html>

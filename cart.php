@@ -13,11 +13,9 @@ if (isset($_POST['action'])) {
     if ($_POST['action'] === 'update') {
         $product_id = $_POST['product_id'];
         $quantity = $_POST['quantity'];
-        
-        if ($quantity > 5) {
+
+        if ($cart->updateQuantity($product_id, $quantity) === 'error') {
             $error_message = 'You cannot update the quantity to more than 5 units.';
-        } else {
-            $cart->updateQuantity($product_id, $quantity);
         }
     } elseif ($_POST['action'] === 'remove') {
         $cart->removeItem($_POST['product_id']);
@@ -27,11 +25,10 @@ if (isset($_POST['action'])) {
 }
 
 $cart_items = $cart->getCart();
-$is_cart_empty = empty($cart_items); // Check if the cart is empty
+$is_cart_empty = empty($cart_items);
 
-// Calculate subtotal, tax, and total
 $subtotal = 0;
-$total_items = 0; // Initialize total items count
+$total_items = 0;
 foreach ($cart_items as $product_id => $quantity) {
     $prod = $product->getProductById($product_id);
     if (!$prod) {
@@ -39,7 +36,7 @@ foreach ($cart_items as $product_id => $quantity) {
         continue;
     }
     $subtotal += $prod['price'] * $quantity;
-    $total_items += $quantity; // Count total items
+    $total_items += $quantity;
 }
 $cart_items = $cart->getCart();
 $is_cart_empty = empty($cart_items);

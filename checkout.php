@@ -7,7 +7,6 @@ redirectIfNotLoggedIn();
 
 $db = new Database();
 $cart = new ShoppingCart(); 
-$product = new ProductItem($db->getConnection());
 $order = new Order($db->getConnection()); 
 
 $errors = [];

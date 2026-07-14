@@ -1,8 +1,3 @@
-<?php
-include 'includes/session_start.php';
-include_once 'config/database.php';
-
-?>
 <?php include 'includes/header.php'; ?>
 
 <main>
@@ -17,17 +12,17 @@ include_once 'config/database.php';
             <h2>Frequently Asked Questions</h2>
             <div class="faq-item">
                 <h3>What is your return policy?</h3>
-                <p>We offer a 30-day return policy on most items. Please visit our <a href="returns-policy.php">Returns Policy</a> page for more details.</p>
+                <p>We offer a 30-day return policy on most items. Contact us for return details.</p>
             </div>
 
             <div class="faq-item">
                 <h3>How can I track my order?</h3>
-                <p>Once your order has shipped, you will receive a tracking number via email. You can also track your order on our <a href="order-tracking.php">Order Tracking</a> page.</p>
+                <p>Once your order has shipped, you will receive a tracking number via email.</p>
             </div>
 
             <div class="faq-item">
                 <h3>Do you ship internationally?</h3>
-                <p>Yes, we offer international shipping. Please check our <a href="shipping-info.php">Shipping Information</a> page for details on shipping rates and delivery times.</p>
+                <p>Yes, we offer international shipping. Contact us for shipping rates and delivery times.</p>
             </div>
         </div>
     </section>

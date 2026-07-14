@@ -1,7 +1,5 @@
 <?php
 include 'includes/session_start.php';
-include_once 'config/database.php';
-include_once 'includes/classes.php';
 include_once 'includes/functions.php';
 redirectIfLoggedIn();
 ?>

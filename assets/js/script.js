@@ -36,6 +36,9 @@ showSlides();
 function showSlides() {
   let i;
   let slides = document.getElementsByClassName("mySlides");
+  if (!slides.length) {
+    return;
+  }
   for (i = 0; i < slides.length; i++) {
     slides[i].style.display = "none";  
   }
@@ -49,6 +52,9 @@ function initializeImagePreview(inputId, imgSelector) {
   document.addEventListener("DOMContentLoaded", function() {
       const productImageInput = document.getElementById(inputId);
       const imagePreview = document.querySelector(imgSelector);
+      if (!productImageInput || !imagePreview) {
+        return;
+      }
 
       productImageInput.addEventListener('change', function(e) {
           const file = this.files[0];
@@ -64,3 +70,5 @@ function initializeImagePreview(inputId, imgSelector) {
       });
   });
 }
+
+initializeImagePreview('productImage', '.upload-button img');

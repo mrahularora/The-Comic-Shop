@@ -1,8 +1,3 @@
-<?php
-include 'includes/session_start.php';
-include_once 'config/database.php';
-
-?>
 <?php include 'includes/header.php'; ?>
 
 <main>
@@ -20,7 +15,7 @@ include_once 'config/database.php';
         
         <h2>Why Shop with Us?</h2><br />
                 <ul>
-                    <li><strong>Curated Collection:</strong> Out of an expansive repository, we cherry-pick each title to make sure we offer our best from the best.
+                    <li><strong>Curated Collection:</strong> Out of an expansive repository, we cherry-pick each title to make sure we offer our best from the best.</li>
                     <li><strong>Exclusive Releases:</strong> Gain access to limited edition comics, signed copies, and exclusive merchandise only available from our store.</li>
                     <li><strong>Community Focused:</strong> More than just a store, we are a community. Attend our events, connect with fellow fans, and stay up to date on the latest comic book news.</li>
                     <li><strong>Customer Satisfaction:</strong> Your satisfaction matters, and we understand the importance of it. Therefore, we offer super-fast shipping, hassle-free returns, and aggressive customer support to ensure the best shopping experience.</li>

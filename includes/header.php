@@ -1,17 +1,11 @@
 <?php
-include __DIR__ . '/session_start.php';
-include_once __DIR__ . '/../config/database.php';
-include_once __DIR__ . '/classes.php';
-
-$db = new Database();
-$product = new ProductItem($db->getConnection()); 
-$cart = new ShoppingCart(); 
+include_once __DIR__ . '/session_start.php';
 
 // Handle logout
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header('Location: index.php'); // Redirect to home page after logout
+    header('Location: index.php');
     exit();
 }
 ?>

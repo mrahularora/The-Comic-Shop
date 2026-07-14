@@ -2,12 +2,10 @@
 include 'includes/session_start.php';
 include_once 'config/database.php';
 include_once 'includes/classes.php';
-include_once 'includes/functions.php';
 
 $db = new Database();
 $getprod = new ProductItem($db->getConnection());
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'name';
-// Fetch products based on the selected sorting option
 $products = $getprod->getProducts($sort);
 $cart = new ShoppingCart(); 
 

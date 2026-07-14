@@ -1,13 +1,11 @@
- <?php
-    include 'includes/session_start.php';
-    include_once 'config/database.php';
-    include_once 'includes/classes.php';
-    include_once 'includes/functions.php';
-    redirectIfLoggedIn();
-    ?>
-    <?php include 'includes/header.php'; ?>
+<?php
+include 'includes/session_start.php';
+include_once 'includes/functions.php';
+redirectIfLoggedIn();
+?>
+<?php include 'includes/header.php'; ?>
 
-    <main class="signup-main">
+<main class="signup-main">
         <section class="signup-section">
             <div class="signup-container">
                 <h2>Create a New Account</h2><br />
@@ -35,7 +33,7 @@
         </section>
     </main>
 
-    <?php include 'includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
 
     <script>
    document.getElementById('signupForm').addEventListener('submit', function(event) {

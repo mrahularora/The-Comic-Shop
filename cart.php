@@ -1,7 +1,7 @@
 <?php
-include 'session_start.php';
-include_once 'classes.php';
-include_once 'database.php';
+include 'includes/session_start.php';
+include_once 'includes/classes.php';
+include_once 'config/database.php';
 
 $db = new Database();
 $product = new ProductItem($db->getConnection()); 

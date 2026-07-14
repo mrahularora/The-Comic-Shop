@@ -1,8 +1,8 @@
  <?php
-    include 'session_start.php';
-    include_once 'database.php';
-    include_once 'classes.php';
-    include_once 'functions.php';
+    include 'includes/session_start.php';
+    include_once 'config/database.php';
+    include_once 'includes/classes.php';
+    include_once 'includes/functions.php';
     redirectIfLoggedIn();
     ?>
     <?php include 'includes/header.php'; ?>

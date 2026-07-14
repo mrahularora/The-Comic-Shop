@@ -1,7 +1,7 @@
 <?php
-include 'session_start.php';
-include_once 'database.php';
-include_once 'classes.php';
+include __DIR__ . '/session_start.php';
+include_once __DIR__ . '/../config/database.php';
+include_once __DIR__ . '/classes.php';
 
 $db = new Database();
 $product = new ProductItem($db->getConnection()); 
@@ -22,13 +22,13 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comic Book Shop</title>
-    <link rel="stylesheet" href="css/admin.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/skew.css">
-    <link rel="stylesheet" href="css/singleProduct.css">
-    <link rel="stylesheet" href="css/cart.css">
-    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/navbar.css">
+    <link rel="stylesheet" href="assets/css/skew.css">
+    <link rel="stylesheet" href="assets/css/singleProduct.css">
+    <link rel="stylesheet" href="assets/css/cart.css">
+    <link rel="stylesheet" href="assets/css/contact.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>

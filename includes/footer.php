@@ -17,9 +17,9 @@
                 </div>
             </div>
                 <p class="footer-center">&copy; <?php echo date("Y"); ?> The Comic Book Shop. All rights reserved.</p>
-                <script src="js/script.js" defer></script>
+                <script src="assets/js/script.js" defer></script>
                 
-                <script src="js/imageChange.js"></script>
+                <script src="assets/js/imageChange.js"></script>
                 <script >initializeImagePreview('productImage', '.upload-button img');</script>
         </footer>
     </body>

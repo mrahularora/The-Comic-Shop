@@ -19,6 +19,17 @@ A PHP/MySQL comic book store built for XAMPP. Customers can browse comics, add i
 - FPDF
 - HTML, CSS, JavaScript
 
+## Project Structure
+
+- `api/` - JSON endpoints for login and signup
+- `assets/css/` - stylesheets
+- `assets/js/` - browser scripts
+- `config/` - database connection
+- `fpdf/` - PDF library
+- `images/` - static images and product uploads
+- `includes/` - shared PHP classes, helpers, header, footer, and session start
+- `pdf/` - generated invoices, ignored by Git
+
 ## Setup
 
 1. Copy the project into your XAMPP `htdocs` folder.

@@ -1,7 +1,7 @@
 <?php
 require('fpdf/fpdf.php');
-include_once 'database.php';
-include_once 'classes.php';
+include_once 'config/database.php';
+include_once 'includes/classes.php';
 
 
 class PDF extends FPDF

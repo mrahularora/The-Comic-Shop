@@ -161,7 +161,7 @@ main {
     justify-content: center;
     align-items: center;
     min-height: 600px;
-    background-image: url("../images/iron.jpg");
+    background-image: url("../../images/iron.jpg");
     background-size: cover;
     background-position: center;
 }
@@ -249,7 +249,7 @@ main {
     justify-content: center;
     align-items: center;
     min-height: 600px;
-    background-image: url("../images/banner.jpg");
+    background-image: url("../../images/banner.jpg");
     background-size: cover;
     background-position: center;
 }
@@ -319,7 +319,7 @@ main {
     justify-content: center;
     align-items: center;
     min-height: 600px;
-    background-image: url("../images/banner6.jpg");
+    background-image: url("../../images/banner6.jpg");
     background-size: cover;
     background-position: center;
 }

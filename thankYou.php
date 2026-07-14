@@ -1,5 +1,5 @@
 <?php
-include_once 'database.php';
+include_once 'config/database.php';
 
 $db = new Database();
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;

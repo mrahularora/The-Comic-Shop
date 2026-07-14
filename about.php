@@ -1,6 +1,6 @@
 <?php
-include 'session_start.php';
-include_once 'database.php';
+include 'includes/session_start.php';
+include_once 'config/database.php';
 
 ?>
 <?php include 'includes/header.php'; ?>

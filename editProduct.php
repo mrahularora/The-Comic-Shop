@@ -12,7 +12,7 @@ $objCategories = new Categories($conn);
 
 $categories = $objCategories->getCategories();
 
-$msg = $name = $description = $long_description = $price = $category_id = "";
+$msg = $name = $description = $long_description = $price = $category_id = $publisher = $writer = $format = $age_rating = "";
 $errors = [];
 $image_name = "";
 
@@ -37,6 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      } else {
           $errors[] = "Long description is required";
      }
+
+     $publisher = trim($_POST["publisher"] ?? "");
+     $writer = trim($_POST["writer"] ?? "");
+     $format = trim($_POST["format"] ?? "");
+     $age_rating = trim($_POST["age_rating"] ?? "");
 
      if (!empty($_POST["price"])) {
           $price = $_POST["price"];
@@ -77,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      }
 
      if (count($errors) == 0) {
-          $res = $objProduct->updateProduct($product_id, $name, $description, $long_description, $price, $image_name, $category_id);
+          $res = $objProduct->updateProduct($product_id, $name, $description, $long_description, $price, $image_name, $category_id, $publisher, $writer, $format, $age_rating);
 
           if ($res) {
                header("Location: admin.php");
@@ -98,6 +103,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $price = $product["price"];
           $category_id = $product["category_id"];
           $image_name = $product["image"];
+          $publisher = $product["publisher"] ?? "";
+          $writer = $product["writer"] ?? "";
+          $format = $product["format"] ?? "";
+          $age_rating = $product["age_rating"] ?? "";
      }
 }
 ?>
@@ -131,6 +140,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                <div class="form-group">
                     <label for="long_description">Long Description</label>
                     <textarea name="long_description" rows="6" cols="150"><?= htmlspecialchars($long_description) ?></textarea>
+               </div>
+
+               <div class="form-group">
+                    <label for="publisher">Publisher</label>
+                    <input type="text" name="publisher" value="<?= htmlspecialchars($publisher) ?>" />
+               </div>
+
+               <div class="form-group">
+                    <label for="writer">Writer</label>
+                    <input type="text" name="writer" value="<?= htmlspecialchars($writer) ?>" />
+               </div>
+
+               <div class="form-group">
+                    <label for="format">Format</label>
+                    <input type="text" name="format" value="<?= htmlspecialchars($format) ?>" />
+               </div>
+
+               <div class="form-group">
+                    <label for="age_rating">Age Rating</label>
+                    <input type="text" name="age_rating" value="<?= htmlspecialchars($age_rating) ?>" />
                </div>
 
                <div class="form-group">

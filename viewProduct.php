@@ -22,6 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: cart.php');
     exit();
 }
+
+$categoryNames = [
+    1 => 'Marvel Comics',
+    2 => 'DC Comics',
+    3 => 'Other Comics',
+];
+$productDetails = [
+    'Category' => $categoryNames[(int) ($prod['category_id'] ?? 0)] ?? 'Comics',
+    'Publisher' => $prod['publisher'] ?? '',
+    'Writer' => $prod['writer'] ?? '',
+    'Format' => $prod['format'] ?? '',
+    'Age Rating' => $prod['age_rating'] ?? '',
+    'Availability' => 'In stock',
+    'Order Limit' => '5 copies per order',
+];
 ?>
 <?php include 'includes/header.php'; ?>
 
@@ -38,6 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h1><?= htmlspecialchars($prod['name']) ?></h1><br />
                 <p class="product-description"><b>Description : </b><?= htmlspecialchars($prod['description']) ?></p>
                 <p class="product-description"><b>Whats Inside : </b><?= htmlspecialchars($prod['long_description']) ?></p>
+                <div class="product-meta">
+                    <?php foreach ($productDetails as $label => $value): ?>
+                        <div>
+                            <span><?= htmlspecialchars($label) ?></span>
+                            <strong><?= htmlspecialchars($value ?: 'Not specified') ?></strong>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
                 <p class="product-price"><strong>Price: $<?= number_format($prod['price'], 2) ?></strong></p>
                 <form method="post">
                     <input type="hidden" name="product_id" value="<?= $prod['id'] ?>">

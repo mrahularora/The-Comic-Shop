@@ -4,7 +4,7 @@ include_once 'config/database.php';
 include_once 'includes/classes.php';
 include_once 'includes/functions.php';
 
-$msg = $name = $description = $long_description = $price = $category_id = "";
+$msg = $name = $description = $long_description = $price = $category_id = $publisher = $writer = $format = $age_rating = "";
 $errors = [];
 $image_name = "";
 
@@ -33,6 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      } else {
           $errors[] = "Long description is required";
      }
+
+     $publisher = trim($_POST["publisher"] ?? "");
+     $writer = trim($_POST["writer"] ?? "");
+     $format = trim($_POST["format"] ?? "");
+     $age_rating = trim($_POST["age_rating"] ?? "");
 
      if (!empty($_POST["price"])) {
           $price = $_POST["price"];
@@ -73,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      }
 
      if (count($errors) == 0) {
-          $objProducts->addProduct($name, $description, $long_description, $price, $image_name, $category_id);
+          $objProducts->addProduct($name, $description, $long_description, $price, $image_name, $category_id, $publisher, $writer, $format, $age_rating);
 
           header("Location: admin.php");
           exit;
@@ -104,6 +109,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                     <label for="long_description">Long Description <span class="red">*</span></label>
                     <input type="text" name="long_description"  placeholder="--Long Description" value="<?= htmlspecialchars($long_description) ?>" />
+                    </div>
+
+                    <div class="form-group">
+                    <label for="publisher">Publisher</label>
+                    <input type="text" name="publisher" placeholder="--Publisher" value="<?= htmlspecialchars($publisher) ?>" />
+                    </div>
+
+                    <div class="form-group">
+                    <label for="writer">Writer</label>
+                    <input type="text" name="writer" placeholder="--Writer" value="<?= htmlspecialchars($writer) ?>" />
+                    </div>
+
+                    <div class="form-group">
+                    <label for="format">Format</label>
+                    <input type="text" name="format" placeholder="--Format" value="<?= htmlspecialchars($format) ?>" />
+                    </div>
+
+                    <div class="form-group">
+                    <label for="age_rating">Age Rating</label>
+                    <input type="text" name="age_rating" placeholder="--Age Rating" value="<?= htmlspecialchars($age_rating) ?>" />
                     </div>
 
                     <div class="form-group">

@@ -96,7 +96,7 @@ class ProductItem
         return $this->normalizeProducts($stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
-    public function addProduct($name, $description, $long_description, $price, $image, $category_id)
+    public function addProduct($name, $description, $long_description, $price, $image, $category_id, $publisher = '', $writer = '', $format = '', $age_rating = '')
     {
         $this->conn->beginTransaction();
 
@@ -108,12 +108,16 @@ class ProductItem
                     long_description,
                     price,
                     image,
-                    category_id
+                    category_id,
+                    publisher,
+                    writer,
+                    format,
+                    age_rating
                 ) 
-                VALUES (?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
 
-            $stmt->execute([$name, $description, $long_description, $price, $this->normalizeImagePath($image), $category_id]);
+            $stmt->execute([$name, $description, $long_description, $price, $this->normalizeImagePath($image), $category_id, $publisher, $writer, $format, $age_rating]);
             $product_id = $this->conn->lastInsertId();
             $this->conn->commit();
             return $product_id;
@@ -138,7 +142,7 @@ class ProductItem
         }
     }
 
-    public function updateProduct($product_id, $name, $description, $long_description, $price, $image, $category_id)
+    public function updateProduct($product_id, $name, $description, $long_description, $price, $image, $category_id, $publisher = '', $writer = '', $format = '', $age_rating = '')
     {
         $this->conn->beginTransaction();
 
@@ -151,12 +155,16 @@ class ProductItem
                     long_description = ?, 
                     price = ?, 
                     image = ?, 
-                    category_id = ?
+                    category_id = ?,
+                    publisher = ?,
+                    writer = ?,
+                    format = ?,
+                    age_rating = ?
                 WHERE 
                     id = ?
             ");
 
-            $stmt->execute([$name, $description, $long_description, $price, $this->normalizeImagePath($image), $category_id, $product_id]);
+            $stmt->execute([$name, $description, $long_description, $price, $this->normalizeImagePath($image), $category_id, $publisher, $writer, $format, $age_rating, $product_id]);
             $this->conn->commit();
             return true;
         } catch (Exception $e) {

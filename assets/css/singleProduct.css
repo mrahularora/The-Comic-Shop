@@ -35,6 +35,34 @@
     margin-bottom: 30px;
 }
 
+.product-meta {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 30px;
+}
+
+.product-meta div {
+    border: 1px solid #e5e5e5;
+    padding: 12px;
+}
+
+.product-meta span,
+.product-meta strong {
+    display: block;
+}
+
+.product-meta span {
+    color: #777;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.product-meta strong {
+    color: #202631;
+    font-size: 14px;
+}
+
 .quantity-group {
     margin-bottom: 15px;
     display: flex;

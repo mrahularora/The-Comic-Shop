@@ -1,7 +1,10 @@
 <?php
 require('fpdf/fpdf.php');
+include 'includes/session_start.php';
 include_once 'config/database.php';
 include_once 'includes/classes.php';
+include_once 'includes/functions.php';
+redirectIfNotLoggedIn();
 
 
 class PDF extends FPDF
@@ -140,7 +143,7 @@ if (!empty($_GET["order_id"])) {
 
      $order = new Order($connection);
 
-     $orderDetails = $order->getOrderDetails($orderId);
+     $orderDetails = $order->getOrderDetails($orderId, $_SESSION['user_id']);
      if (empty($orderDetails)) {
           http_response_code(404);
           exit('Order not found.');
@@ -167,12 +170,16 @@ if (!empty($_GET["order_id"])) {
      $taxes = $subtotal * 0.13;
      $totalAmount = $subtotal + $taxes;
 
-     $totalItems = count($orderDetails);
+     $totalItems = array_sum(array_column($orderDetails, 'product_quantity'));
 
      $pdf->OrderSummary($subtotal, $taxes, $totalAmount, $totalItems);
 
-     $pdf->Output('F', "pdf/order_details_$orderId.pdf");
+     if (isset($_GET['download'])) {
+          $pdf->Output('D', "order_details_$orderId.pdf");
+          exit;
+     }
 
+     $pdf->Output('F', "pdf/order_details_$orderId.pdf");
      header ("Location: thankYou.php?order_id=" . $orderId . "");
 } else {
      $errors[] = "Order ID is not valid";

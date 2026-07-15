@@ -41,6 +41,9 @@ if (isset($_GET['logout'])) {
             <a href="about.php">About</a>
             <a href="contact.php">Contact</a>
             <a href="faqs.php">FAQs</a>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="orders.php">Orders</a>
+            <?php endif; ?>
             <?php if (($_SESSION['user_role'] ?? '') === 'admin'): ?>
                 <a href="admin.php">Admin</a>
             <?php endif; ?>

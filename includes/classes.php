@@ -290,10 +290,34 @@ class Order
         return $stmt->fetchColumn();
     }
 
-    public function getOrderDetails($order_id)
+    public function getOrdersByUser($user_id)
+    {
+        $query = "SELECT
+                    o.id,
+                    o.total_price,
+                    o.created_at,
+                    o.shipping_address,
+                    o.zip_code,
+                    o.contact_number,
+                    'Processing' AS order_status,
+                    COALESCE(SUM(oi.quantity), 0) AS total_items
+                FROM orders o
+                LEFT JOIN orderitems oi ON o.id = oi.order_id
+                WHERE o.user_id = :user_id
+                GROUP BY o.id, o.total_price, o.created_at, o.shipping_address, o.zip_code, o.contact_number
+                ORDER BY o.created_at DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getOrderDetails($order_id, $user_id = null)
     {
         $query = "SELECT 
                     o.id AS order_id,
+                    o.user_id AS user_id,
                     u.username AS customer,
                     u.email AS customer_email,
                     o.total_price AS order_total_price,
@@ -301,9 +325,11 @@ class Order
                     o.zip_code AS zip_code,
                     o.contact_number AS contact_number,
                     o.created_at AS order_date,
+                    'Processing' AS order_status,
                     p.id AS product_id,
                     p.name AS product_name,
                     p.description AS product_description,
+                    p.image AS product_image,
                     oi.quantity AS product_quantity,
                     oi.price AS product_price
                 FROM 
@@ -315,10 +341,17 @@ class Order
                 JOIN 
                     products p ON oi.product_id = p.id
                 WHERE 
-                    o.id = :order_id;";
+                    o.id = :order_id";
+
+        if ($user_id !== null) {
+            $query .= " AND o.user_id = :user_id";
+        }
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        if ($user_id !== null) {
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        }
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

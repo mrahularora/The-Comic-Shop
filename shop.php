@@ -5,7 +5,16 @@ include_once 'includes/classes.php';
 
 $db = new Database();
 $getprod = new ProductItem($db->getConnection());
-$sort = isset($_GET['sort']) ? $_GET['sort'] : 'name';
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'name_asc';
+$sortOptions = [
+    'name_asc' => 'Name - A-Z',
+    'name_desc' => 'Name - Z-A',
+    'price_asc' => 'Price - Low to High',
+    'price_desc' => 'Price - High to Low',
+    'newest' => 'Newest First',
+    'oldest' => 'Oldest First',
+    'category' => 'Category',
+];
 $products = $getprod->getProducts($sort);
 $cart = new ShoppingCart(); 
 
@@ -31,8 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="get" action="">
                 <label for="sort" class="sort bold">Sort by:</label>
                 <select class="sort" name="sort" id="sort" onchange="this.form.submit()">
-                    <option value="name" <?php echo $sort === 'name' ? 'selected' : ''; ?>>Name - A-Z</option>
-                    <option value="price" <?php echo $sort === 'price' ? 'selected' : ''; ?>>Price - Low to High</option>
+                    <?php foreach ($sortOptions as $value => $label): ?>
+                        <option value="<?= htmlspecialchars($value) ?>" <?= $sort === $value ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($label) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </form>
         </div>

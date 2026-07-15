@@ -30,9 +30,20 @@ class ProductItem
     }
 
     // Getting all products and randomizing them
-    public function getProducts($sort = 'name') {
-        $order_by = $sort === 'price' ? 'price' : 'name';
-        $sql = "SELECT * FROM products ORDER BY $order_by ASC";
+    public function getProducts($sort = 'name_asc') {
+        $sortOptions = [
+            'name' => 'name ASC',
+            'name_asc' => 'name ASC',
+            'name_desc' => 'name DESC',
+            'price' => 'price ASC',
+            'price_asc' => 'price ASC',
+            'price_desc' => 'price DESC',
+            'newest' => 'id DESC',
+            'oldest' => 'id ASC',
+            'category' => 'category_id ASC, name ASC',
+        ];
+        $order_by = $sortOptions[$sort] ?? $sortOptions['name_asc'];
+        $sql = "SELECT * FROM products ORDER BY $order_by";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $this->normalizeProducts($stmt->fetchAll(PDO::FETCH_ASSOC));

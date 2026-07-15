@@ -143,7 +143,10 @@ if (!empty($_GET["order_id"])) {
 
      $order = new Order($connection);
 
-     $orderDetails = $order->getOrderDetails($orderId, $_SESSION['user_id']);
+     $isAdminDownload = isset($_GET['admin']) && (($_SESSION['user_role'] ?? '') === 'admin');
+     $orderDetails = $isAdminDownload
+          ? $order->getOrderDetails($orderId)
+          : $order->getOrderDetails($orderId, $_SESSION['user_id']);
      if (empty($orderDetails)) {
           http_response_code(404);
           exit('Order not found.');

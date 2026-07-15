@@ -8,6 +8,7 @@ $db = new Database();
 $conn = $db->getConnection();
 redirectIfNotAdmin($conn);
 $objProduct = new ProductItem($conn);
+$objOrder = new Order($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -21,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $products = $objProduct->getStaticProducts();
 $productCount = count($products);
+$orderCount = $objOrder->getOrderCount();
 
 ?>
 <?php include 'includes/header.php'; ?>
@@ -38,7 +40,14 @@ $productCount = count($products);
                     <span><?= $productCount ?></span>
                     <small>Total Products</small>
                </div>
-               <a href="addProduct.php" class="admin-add-button text-none">New Product / Comic Book</a>
+               <div class="admin-summary">
+                    <span><?= $orderCount ?></span>
+                    <small>Total Orders</small>
+               </div>
+               <div class="admin-hero-actions">
+                    <a href="adminOrders.php" class="admin-add-button text-none">Manage Orders</a>
+                    <a href="addProduct.php" class="admin-add-button text-none">New Product / Comic Book</a>
+               </div>
           </div>
 
           <div class="admin-table-wrap">

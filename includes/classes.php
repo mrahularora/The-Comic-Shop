@@ -290,6 +290,12 @@ class Order
         return $stmt->fetchColumn();
     }
 
+    public function getOrderCount()
+    {
+        $stmt = $this->db->query("SELECT COUNT(*) FROM orders");
+        return (int) $stmt->fetchColumn();
+    }
+
     public function getOrdersByUser($user_id)
     {
         $query = "SELECT
@@ -299,18 +305,56 @@ class Order
                     o.shipping_address,
                     o.zip_code,
                     o.contact_number,
-                    'Processing' AS order_status,
+                    o.status AS order_status,
                     COALESCE(SUM(oi.quantity), 0) AS total_items
                 FROM orders o
                 LEFT JOIN orderitems oi ON o.id = oi.order_id
                 WHERE o.user_id = :user_id
-                GROUP BY o.id, o.total_price, o.created_at, o.shipping_address, o.zip_code, o.contact_number
+                GROUP BY o.id, o.total_price, o.created_at, o.shipping_address, o.zip_code, o.contact_number, o.status
                 ORDER BY o.created_at DESC";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllOrders()
+    {
+        $query = "SELECT
+                    o.id,
+                    o.total_price,
+                    o.created_at,
+                    o.shipping_address,
+                    o.zip_code,
+                    o.contact_number,
+                    o.status AS order_status,
+                    u.username AS customer,
+                    u.email AS customer_email,
+                    COALESCE(SUM(oi.quantity), 0) AS total_items
+                FROM orders o
+                JOIN users u ON o.user_id = u.id
+                LEFT JOIN orderitems oi ON o.id = oi.order_id
+                GROUP BY o.id, o.total_price, o.created_at, o.shipping_address, o.zip_code, o.contact_number, o.status, u.username, u.email
+                ORDER BY o.created_at DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateOrderStatus($order_id, $status)
+    {
+        $allowedStatuses = ['Processing', 'Shipped', 'Delivered', 'Cancelled'];
+        if (!in_array($status, $allowedStatuses, true)) {
+            return false;
+        }
+
+        $stmt = $this->db->prepare("UPDATE orders SET status = :status WHERE id = :id");
+        return $stmt->execute([
+            'status' => $status,
+            'id' => $order_id,
+        ]);
     }
 
     public function getOrderDetails($order_id, $user_id = null)
@@ -325,7 +369,7 @@ class Order
                     o.zip_code AS zip_code,
                     o.contact_number AS contact_number,
                     o.created_at AS order_date,
-                    'Processing' AS order_status,
+                    o.status AS order_status,
                     p.id AS product_id,
                     p.name AS product_name,
                     p.description AS product_description,

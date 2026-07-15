@@ -1,26 +1,53 @@
 <?php include 'includes/header.php'; ?>
 
-<main>
+<main class="info-page">
+    <section class="info-hero about-hero">
+        <div class="info-hero-content">
+            <p class="eyebrow">Kitchener comic shop</p>
+            <h1>The Comic Shop</h1>
+            <p>Curated comics, graphic novels, and collector picks for readers who want their next story to hit hard.</p>
+            <a href="shop.php" class="vbutton">Browse Comics</a>
+        </div>
+    </section>
 
-    <section class="mid80 marginbottom30">
-    <div>
-        <h1 class="margin70 center">About Us </h1><br />
-        <p>Welcome to The Comic Shop, where everything comic book-related is single-handedly curated. Our love for storytelling and art inspires us to find and bring the best comic books from around the world right to you. Whether it be superheroes, manga, graphic novels, or indie comics, we have something for every reader.</p><br />
-        
-        <h2>Our Story</h2><br />
-        <p>Established in 1998, The Comic Shop started with a small physical location in Kitchener with the vision of linking enthusiasts to their favorite comics. Over the years, we have grown online so that now, we can share this zeal for comics with the world.</p><br />
-        
-        <h2>Our Mission</h2><br />
-        <p> The Comic Shop strongly believes in the power of stories to inspire, entertain, and bring people together. We imagine a platform in which comic book lovers may discover, explore, and be a part of the comic world. We promise to provide a broad diversity of titles, independence for the creators, and an excellent shopping experience.</p><br />
-        
-        <h2>Why Shop with Us?</h2><br />
-                <ul>
-                    <li><strong>Curated Collection:</strong> Out of an expansive repository, we cherry-pick each title to make sure we offer our best from the best.</li>
-                    <li><strong>Exclusive Releases:</strong> Gain access to limited edition comics, signed copies, and exclusive merchandise only available from our store.</li>
-                    <li><strong>Community Focused:</strong> More than just a store, we are a community. Attend our events, connect with fellow fans, and stay up to date on the latest comic book news.</li>
-                    <li><strong>Customer Satisfaction:</strong> Your satisfaction matters, and we understand the importance of it. Therefore, we offer super-fast shipping, hassle-free returns, and aggressive customer support to ensure the best shopping experience.</li>
-        </ul>
-    </div>
+    <section class="info-section mid80">
+        <div class="split-layout">
+            <div>
+                <p class="eyebrow">Since 1998</p>
+                <h2>Built by comic readers, for comic readers.</h2>
+            </div>
+            <div class="copy-stack">
+                <p>The Comic Shop started as a small Kitchener storefront with one job: help readers find stories worth keeping. Today, the shop brings that same collector-first taste online.</p>
+                <p>We focus on superhero staples, graphic novels, indie releases, and standout issues that make a shelf feel personal.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-band">
+        <div class="mid80 value-grid">
+            <article>
+                <span>01</span>
+                <h3>Curated Collection</h3>
+                <p>Every title earns its place, from iconic arcs to new-reader friendly picks.</p>
+            </article>
+            <article>
+                <span>02</span>
+                <h3>Collector Friendly</h3>
+                <p>Browse clear categories, compare stories quickly, and keep your cart simple.</p>
+            </article>
+            <article>
+                <span>03</span>
+                <h3>Community Focused</h3>
+                <p>Made for fans who care about the stories, artists, characters, and conversations.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="info-section mid80">
+        <div class="mission-panel">
+            <h2>Our Mission</h2>
+            <p>Make comic discovery easier, friendlier, and more exciting, whether you are chasing a favorite hero or starting your first pull list.</p>
+        </div>
     </section>
 
     <section class="margin30">

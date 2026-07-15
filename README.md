@@ -25,7 +25,7 @@ A PHP/MySQL comic book store built for XAMPP. Customers can browse comics, add i
 - `assets/css/` - stylesheets
 - `assets/js/` - browser scripts
 - `config/` - database connection
-- `fpdf/` - PDF library
+- `fpdf/` - local FPDF runtime files for server-side invoice generation
 - `images/` - static images and product uploads
 - `includes/` - shared PHP classes, helpers, header, footer, and session start
 - `pdf/` - generated invoices, ignored by Git
@@ -44,6 +44,7 @@ Database settings live in `database.php`.
 
 - Generated invoice PDFs are written to `pdf/` and ignored by Git.
 - Product uploads are stored in `images/products/`.
+- FPDF cannot be replaced by a browser CDN because it runs in PHP on the server.
 
 ## License
 

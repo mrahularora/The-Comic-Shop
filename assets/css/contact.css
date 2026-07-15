@@ -1,22 +1,171 @@
 
-/* FAQ Section */
-.faq {
-    background: #fff;
-    padding: 20px;
+.info-page {
+    background: #f7f7f8;
 }
 
-.faq h2 {
-    margin-bottom: 15px;
+.info-hero {
+    min-height: 430px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 70px 10%;
 }
 
+.info-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 20, 28, 0.68);
+}
+
+.about-hero {
+    background-image: url("../../images/vs.jpg");
+}
+
+.contact-hero {
+    background-image: url("../../images/batman.jpg");
+}
+
+.info-hero-content {
+    position: relative;
+    max-width: 680px;
+}
+
+.info-hero h1 {
+    font-size: 52px;
+    line-height: 1;
+    margin: 8px 0 18px;
+}
+
+.info-hero p {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 620px;
+}
+
+.eyebrow {
+    color: #dc3545;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.info-section {
+    padding: 70px 0;
+}
+
+.split-layout {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.8fr) minmax(280px, 1.2fr);
+    gap: 50px;
+    align-items: start;
+}
+
+.split-layout h2,
+.mission-panel h2 {
+    font-size: 34px;
+    line-height: 1.15;
+    color: #202631;
+}
+
+.copy-stack p,
+.mission-panel p,
+.faq-item p,
+.contact-item span,
+.value-grid p {
+    color: #555;
+    line-height: 1.7;
+}
+
+.copy-stack p + p {
+    margin-top: 18px;
+}
+
+.info-band {
+    background: #202631;
+    padding: 55px 0;
+}
+
+.value-grid,
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.value-grid article,
+.contact-item,
+.mission-panel,
 .faq-item {
-    margin-bottom: 20px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    padding: 24px;
+}
+
+.value-grid article {
+    background: #fff;
+}
+
+.value-grid span {
+    color: #dc3545;
+    font-weight: 800;
+}
+
+.value-grid h3,
+.faq-item h3,
+.contact-item strong {
+    color: #202631;
+    margin: 10px 0;
+}
+
+.mission-panel {
+    border-left: 6px solid #dc3545;
+}
+
+.contact-item {
+    display: block;
+    text-decoration: none;
+}
+
+.contact-item:hover {
+    border-color: #dc3545;
+}
+
+.contact-item strong,
+.contact-item span {
+    display: block;
+}
+
+.faq {
+    display: grid;
+    gap: 14px;
 }
 
 .faq-item h3 {
-    margin-bottom: 5px;
+    margin-top: 0;
 }
 
-.faq-item p {
-    margin: 0;
+@media (max-width: 800px) {
+    .info-hero {
+        min-height: 360px;
+        padding: 50px 8%;
+    }
+
+    .info-hero h1 {
+        font-size: 38px;
+    }
+
+    .split-layout,
+    .value-grid,
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-section {
+        padding: 45px 0;
+    }
 }

@@ -48,6 +48,15 @@ main {
     min-height: 400px;
 }
 
+.newsletter-flash {
+    background: #f7f7f8;
+    border-bottom: 1px solid #e5e5e5;
+    color: #202631;
+    font-weight: 700;
+    padding: 14px 7%;
+    text-align: center;
+}
+
 .home-page {
     margin-top: 0;
 }

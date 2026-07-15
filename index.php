@@ -191,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="newsletter">
             <h2>Join the Comic Book Shop Community!</h2>
             <p>Get the latest news, releases, and exclusive content delivered right to your inbox.</p>
-            <form action="subscribe" method="post">
+            <form action="subscribe.php" method="post">
                 <input type="email" name="email" placeholder="Enter your email address" required>
                 <input type="submit" value="Subscribe">
             </form>

@@ -62,3 +62,9 @@ if (isset($_GET['logout'])) {
         </div>
     </nav>
 </header>
+<?php if (isset($_SESSION['newsletter_message'])): ?>
+    <div class="newsletter-flash">
+        <?php echo htmlspecialchars($_SESSION['newsletter_message']); ?>
+    </div>
+    <?php unset($_SESSION['newsletter_message']); ?>
+<?php endif; ?>

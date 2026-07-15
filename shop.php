@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <img src="'.$pimage.'" alt="Product.'.$pname.'" width="100%" class="scale" />
                 </a>
                 <p class="pname">'.$pname.'</p> 
-                <p class="desc">'. $pdescription.'<br /><br />
+                <p class="desc">'. $pdescription.'</p><br /><br />
                 <p class="price">$'.$pprice.'</p>
                 <div><button class="button">Add to Cart</button>
                 <a href="viewProduct.php?id='.$pid.'" class="vbutton">View Comic</a></div>

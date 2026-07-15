@@ -1,32 +1,6 @@
-// nav 1 and 2
-var prevScrollpos = window.pageYOffset;
-
-window.onscroll = function() {
-    
-    var currentScrollPos = window.pageYOffset;
-    if (prevScrollpos > currentScrollPos) {
-        document.getElementById("navbar").style.top = "89px";
-    } else {
-        document.getElementById("navbar").style.top = "-89px";
-    }
-    prevScrollpos = currentScrollPos;
-    
-    
-    
-    scrollFunction()
-
-
-};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-    document.getElementById("logo").style.width = "113px";
-    document.getElementById("nav").style.padding = "8px";
-  } else {
-    document.getElementById("logo").style.width = "145px";
-    document.getElementById("nav").style.padding = "0px";
-  }
-}
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('nav-compact', window.scrollY > 60);
+});
 
 // slider
 

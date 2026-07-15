@@ -7,7 +7,7 @@
 }
 
 body{
-    margin-top: 90px;
+    margin-top: 98px;
 }
 
 header {
@@ -34,6 +34,7 @@ header {
 .center{text-align: center;}
 .text-right{ text-align: right;}
 .marginauto{ margin: auto;}
+.clearfix{ clear: both; }
 
 .bold{ font-weight: bold;}
 .font12{font-size:12px;}
@@ -45,6 +46,10 @@ header {
 main {
     margin-top:48px;
     min-height: 400px;
+}
+
+.home-page {
+    margin-top: 0;
 }
 
 /* sorting */
@@ -91,6 +96,11 @@ main {
 .desc{ color:gray; font-size:12px;}
 .price{color:#dc3545;}
 .productgrid{text-align: center;}
+.productgrid::after{
+    content: "";
+    display: block;
+    clear: both;
+}
 
 .scale{
     cursor: pointer;
@@ -139,6 +149,14 @@ main {
     background-color: dodgerblue;
 }
 .vbutton:hover{ background-color:#fefefe; color:dodgerblue;}
+
+.product .button,
+.product .vbutton {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    width: calc(50% - 6px);
+}
 
 .none{
     text-decoration: none;
@@ -362,13 +380,14 @@ main {
 /*newsletter */
 
 .newsletter {
-    background: #dc3545;
-    color: #fff;
-    padding: 20px 0;
+    background: #f7f7f8;
+    clear: both;
+    color: #202631;
+    margin-top: 45px;
+    padding: 28px 20px;
     text-align: center;
-    box-shadow: 0 -4px 5px rgba(0, 0, 0, 0.1);
-    border-top: 5px solid #f39c12;
-    border-bottom: 5px solid #f39c12;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .newsletter h2 {
@@ -380,12 +399,13 @@ main {
 .newsletter p {
     margin: 0 0 20px;
     font-size: 16px;
+    color: #555;
 }
 
 .newsletter input[type="email"] {
-    width: 70%;
+    width: min(520px, 70%);
     padding: 10px;
-    border: 2px solid #fff;
+    border: 1px solid #d1d5db;
     border-radius: 5px;
     font-size: 16px;
     margin-right: 10px;
@@ -395,14 +415,14 @@ main {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background: #c0392b;
+    background: #dc3545;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
 }
 
 .newsletter input[type="submit"]:hover {
-    background: #e74c3c;
+    background: #b92d3a;
 }
 
 /* newsletter end */

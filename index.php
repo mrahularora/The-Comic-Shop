@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <?php include 'includes/header.php'; ?>
 
-<main>
+<main class="home-page">
     <section>
         <div class="slideshow-container">
             <div class="mySlides fade">

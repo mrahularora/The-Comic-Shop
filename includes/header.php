@@ -26,29 +26,29 @@ if (isset($_GET['logout'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<header>
-    <div id="nav">
-        <a href="index.php"><img src="images/logo.png" id="logo"></a>
-    </div>
+<header id="nav">
+    <a href="index.php" class="brand-link">
+        <img src="images/logo.png" id="logo" alt="Comic Book Shop">
+        <span>The Comic Shop</span>
+    </a>
+
     <nav id="navbar">
-        <a href="index.php">Home</a>
-        <a href="shop.php">Shop Comics</a>
-        <a href="about.php">About Us</a>
-        <a href="contact.php">Contact Us</a>
-        
-        <?php if (isset($_SESSION['user_id'])): ?>
-            <a href="?logout" style="float:right;">Logout</a>
-            <a href="cart.php" style="float:right;"><img src="images/icons/cart.png" class="width13" /> Cart</a>
-            <a href="#" style="float:right;">Hi, <?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-            
-        <?php else: ?>
-            <a href="cart.php" style="float:right;"><img src="images/icons/cart.png" class="width13" /> Cart</a>
-            <a href="login.php" style="float:right;">Admin Login</a>
-            <a href="signup.php" style="float:right;">Sign Up</a>
-            <a href="login.php" style="float:right;">Login</a>
-            <a href="#" style="float:right;">Hi, Guest</a>
-        <?php endif; ?>
-        
+        <div class="nav-links">
+            <a href="index.php">Home</a>
+            <a href="shop.php">Shop</a>
+            <a href="about.php">About</a>
+            <a href="contact.php">Contact</a>
+        </div>
+
+        <div class="nav-actions">
+            <a href="cart.php" class="cart-link"><img src="images/icons/cart.png" class="width13" alt="" /> Cart</a>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <span class="nav-user">Hi, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+                <a href="?logout" class="nav-button">Logout</a>
+            <?php else: ?>
+                <a href="signup.php">Sign Up</a>
+                <a href="login.php" class="nav-button">Login</a>
+            <?php endif; ?>
+        </div>
     </nav>
-    <div class="clearfix"></div>
 </header>

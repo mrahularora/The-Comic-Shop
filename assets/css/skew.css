@@ -42,3 +42,33 @@
     height: 100%;
     object-fit: cover;
 }
+
+@media (max-width: 768px) {
+  .textoverimage .text {
+    padding: 16px;
+  }
+
+  .textoverimage .text h1 {
+    font-size: 26px;
+  }
+
+  .textoverimage .text p {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .skew-container {
+    height: 420px;
+    transform: skewY(-2deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .skew-container {
+    height: 360px;
+  }
+
+  .textoverimage .text {
+    top: 52%;
+  }
+}

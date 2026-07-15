@@ -173,3 +173,25 @@
         padding: 45px 0;
     }
 }
+
+@media (max-width: 520px) {
+    .info-hero {
+        min-height: 300px;
+        padding: 40px 6%;
+    }
+
+    .info-hero h1 {
+        font-size: 32px;
+    }
+
+    .info-hero p {
+        font-size: 16px;
+    }
+
+    .value-grid article,
+    .contact-item,
+    .mission-panel,
+    .faq-item {
+        padding: 18px;
+    }
+}

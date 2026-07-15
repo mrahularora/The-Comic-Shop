@@ -186,6 +186,33 @@
      }
 }
 
+@media screen and (max-width: 600px) {
+     .admin-hero {
+          padding: 18px;
+     }
+
+     .admin-hero-actions,
+     .admin-add-button,
+     .admin-status-form,
+     .action-buttons {
+          align-items: stretch;
+          flex-direction: column;
+          width: 100%;
+     }
+
+     .admin-status-form select,
+     .admin-status-form .button,
+     .action-buttons .button,
+     .action-buttons .vbutton {
+          width: 100%;
+     }
+
+     .admin-table-wrap {
+          margin-left: -4%;
+          width: 108%;
+     }
+}
+
 
 .upload-button {
      display: inline-block;

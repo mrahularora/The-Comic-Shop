@@ -112,6 +112,7 @@
     flex-direction: column;
     gap: 10px;
     padding: 12px 5%;
+    position: static;
   }
 
   #navbar,
@@ -125,5 +126,30 @@
   #navbar a,
   .nav-user {
     padding: 9px 10px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  #logo {
+    width: 58px;
+  }
+
+  .brand-link {
+    font-size: 16px;
+  }
+
+  #navbar {
+    gap: 10px;
+  }
+
+  .nav-links,
+  .nav-actions {
+    gap: 4px;
+  }
+
+  #navbar a,
+  .nav-user {
+    font-size: 13px;
+    padding: 8px;
   }
 }

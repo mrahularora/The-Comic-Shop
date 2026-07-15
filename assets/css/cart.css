@@ -191,6 +191,11 @@
     width: 100%;
 }
 
+.checkout-card input[readonly] {
+    background: #eef2f7;
+    color: #555;
+}
+
 .checkout-two-column {
     display: grid;
     gap: 14px;

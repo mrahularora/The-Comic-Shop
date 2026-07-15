@@ -12,7 +12,11 @@ $order = new Order($db->getConnection());
 
 $errors = [];
 
-$name = $contact = $address = $zip_code = $card_number = $card_expiry = $card_cvv = $cardholder_name = '';
+$account_name = $_SESSION['user_name'] ?? '';
+$account_email = $_SESSION['user_email'] ?? '';
+$name = $account_name;
+$cardholder_name = $account_name;
+$contact = $address = $zip_code = $card_number = $card_expiry = $card_cvv = '';
 $cart_items = $cart->getCart();
 if (empty($cart_items)) {
     header('Location: cart.php');
@@ -144,6 +148,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="name">Full Name<span class="red">*</span></label>
                 <input type="text" id="name" name="name" class="form-control" autocomplete="name" value="<?php echo htmlspecialchars($name); ?>" >
                 <small id="name-error" ><?php echo $errors['name'] ?? ''; ?></small>
+            </div>
+            <div class="form-group">
+                <label for="account_email">Account Email</label>
+                <input type="email" id="account_email" class="form-control" value="<?php echo htmlspecialchars($account_email); ?>" readonly>
             </div>
             <div class="form-group">
                 <label for="contact">Contact Number<span class="red">*</span></label>

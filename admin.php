@@ -26,7 +26,7 @@ $productCount = count($products);
 <?php include 'includes/header.php'; ?>
 
      <main class="margin70 marginbottom30">
-     <section class="mid95 admin-panel">
+     <section class="admin-panel">
 
           <div class="admin-hero">
                <div>
@@ -41,6 +41,7 @@ $productCount = count($products);
                <a href="addProduct.php" class="admin-add-button text-none">New Product / Comic Book</a>
           </div>
 
+          <div class="admin-table-wrap">
           <table class="tblProducts">
                <thead>
                     <tr>
@@ -97,6 +98,7 @@ $productCount = count($products);
                     ?>
                </tbody>
           </table>
+          </div>
      </section>
      </main>
 

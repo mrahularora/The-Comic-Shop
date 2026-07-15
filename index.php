@@ -81,8 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="product">
                     <form method="post">
                         <input type="hidden" name="product_id" value="'.$pid.'">
-                        <img src="'.$pimage.'" width="100%" alt="Product.'.$pname.'" class="scale" />
-                        <p class="pname">'.$pname.'</p> 
+                        <a href="viewProduct.php?id='.$pid.'">
+                            <img src="'.$pimage.'" width="100%" alt="Product.'.$pname.'" class="scale" />
+                        </a>
+                        <p class="pname"><a href="viewProduct.php?id='.$pid.'" class="none">'.$pname.'</a></p> 
                         <p class="desc">'.$pdescription.'</p>
                         <p class="price">$'.$pprice.'</p>
                         <div>
@@ -126,8 +128,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="product">
                     <form method="post">
                         <input type="hidden" name="product_id" value="'.$dcpid.'">
-                        <img src="'.$dcpimage.'" width="100%"  alt="Product.'.$dcpname.'" class="scale" />
-                        <p class="pname">'.$dcpname.'</p> 
+                        <a href="viewProduct.php?id='.$dcpid.'">
+                            <img src="'.$dcpimage.'" width="100%"  alt="Product.'.$dcpname.'" class="scale" />
+                        </a>
+                        <p class="pname"><a href="viewProduct.php?id='.$dcpid.'" class="none">'.$dcpname.'</a></p> 
                         <p class="desc">'.$dcpdescription.'</p>
                         <p class="price">$'.$dcpprice.'</p>
                         <div>
@@ -162,8 +166,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="product">
                     <form method="post">
                         <input type="hidden" name="product_id" value="'.$otherpid.'">
-                        <img src="'.$otherpimage.'" width="100%" alt="Product.'.$otherpname.'" class="scale" />
-                        <p class="pname">'.$otherpname.'</p> 
+                        <a href="viewProduct.php?id='.$otherpid.'">
+                            <img src="'.$otherpimage.'" width="100%" alt="Product.'.$otherpname.'" class="scale" />
+                        </a>
+                        <p class="pname"><a href="viewProduct.php?id='.$otherpid.'" class="none">'.$otherpname.'</a></p> 
                         <p class="desc">'.$otherpdescription.'</p>
                         <p class="price">$'.$otherpprice.'</p>
                         <div>

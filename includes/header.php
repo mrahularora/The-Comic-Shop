@@ -1,6 +1,8 @@
 <?php
 include_once __DIR__ . '/session_start.php';
 
+$cartCount = array_sum(array_map('intval', $_SESSION['cart'] ?? []));
+
 // Handle logout
 if (isset($_GET['logout'])) {
     session_unset();
@@ -44,7 +46,11 @@ if (isset($_GET['logout'])) {
         </div>
 
         <div class="nav-actions">
-            <a href="cart.php" class="cart-link"><img src="images/icons/cart.png" class="width13" alt="" /> Cart</a>
+            <a href="cart.php" class="cart-link">
+                <img src="images/icons/cart.png" class="width13" alt="" />
+                Cart
+                <span class="cart-count"><?php echo $cartCount; ?></span>
+            </a>
             <?php if (isset($_SESSION['user_id'])): ?>
                 <span class="nav-user">Hi, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
                 <a href="?logout" class="nav-button">Logout</a>

@@ -1,5 +1,7 @@
 .admin-panel {
      color: #1f2937;
+     margin: 0 auto;
+     width: 80%;
 }
 
 .admin-hero {
@@ -63,25 +65,42 @@
      color: #dc3545;
 }
 
-table {
+.admin-table-wrap {
+     background: #fff;
+     border: 1px solid #e5e7eb;
+     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+     overflow-x: auto;
+}
+
+.admin-panel table {
      width: 100%;
      border-collapse: collapse;
      margin-bottom: 20px;
      background: #fff;
 }
 
-th,
-td {
+.admin-panel th,
+.admin-panel td {
      border: 1px solid #ddd;
      padding: 10px;
      text-align: center;
      vertical-align: middle;
 }
 
-th {
+.admin-panel th {
      background-color: #f8fafc;
      color: #374151;
      padding: 12px 10px;
+}
+
+.tblProducts {
+     min-width: 980px;
+}
+
+.tblProducts td:nth-child(3),
+.tblProducts td:nth-child(4) {
+     line-height: 1.45;
+     text-align: left;
 }
 
 .tblProducts img {
@@ -120,6 +139,10 @@ th {
           border: 0;
           padding: 0;
           text-align: left;
+     }
+
+     .admin-panel {
+          width: 92%;
      }
 }
 

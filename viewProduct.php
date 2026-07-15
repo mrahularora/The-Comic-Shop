@@ -18,8 +18,10 @@ if (!$prod) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $cart->addToCart($_POST['product_id'], $_POST['quantity']);
-    header('Location: cart.php');
+    $_SESSION['cart_message'] = $cart->addToCart($_POST['product_id'], $_POST['quantity']) === 'success'
+        ? 'Comic added to your cart.'
+        : 'This comic could not be added. Maximum quantity is 5.';
+    header('Location: viewProduct.php?id=' . (int) $_POST['product_id']);
     exit();
 }
 

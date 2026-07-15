@@ -71,3 +71,10 @@ if (isset($_GET['logout'])) {
     </div>
     <?php unset($_SESSION['newsletter_message']); ?>
 <?php endif; ?>
+<?php if (isset($_SESSION['cart_message'])): ?>
+    <div class="newsletter-flash">
+        <?php echo htmlspecialchars($_SESSION['cart_message']); ?>
+        <a href="cart.php">View Cart</a>
+    </div>
+    <?php unset($_SESSION['cart_message']); ?>
+<?php endif; ?>

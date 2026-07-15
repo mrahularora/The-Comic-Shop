@@ -14,6 +14,7 @@
                     <p>299 Doon, Kitchener, Canada</p>
                     <p>Email: <a href="mailto:info@example.com">info@thecomicshop.com</a></p>
                     <p>Phone: +1 (123) 456-7890</p>
+                    <p><a href="faqs.php">FAQs</a></p>
                 </div>
             </div>
                 <p class="footer-center">&copy; <?php echo date("Y"); ?> The Comic Book Shop. All rights reserved.</p>

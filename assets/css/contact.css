@@ -29,6 +29,10 @@
     background-image: url("../../images/batman.jpg");
 }
 
+.faq-hero {
+    background-image: url("../../images/banner.jpg");
+}
+
 .info-hero-content {
     position: relative;
     max-width: 680px;

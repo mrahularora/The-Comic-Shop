@@ -3,10 +3,11 @@ include 'includes/session_start.php';
 include_once 'includes/classes.php';
 include_once 'config/database.php';
 include_once 'includes/functions.php';
-redirectIfNotLoggedIn();
 
 $db = new Database();
-$objProduct = new ProductItem($db->getConnection());
+$conn = $db->getConnection();
+redirectIfNotAdmin($conn);
+$objProduct = new ProductItem($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -19,17 +20,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $products = $objProduct->getStaticProducts();
+$productCount = count($products);
 
 ?>
 <?php include 'includes/header.php'; ?>
 
      <main class="margin70 marginbottom30">
-     <section class="mid95">
+     <section class="mid95 admin-panel">
 
-          <h1>Welcome to the Admin Panel</h1><br />
-          <p>Hi! Admin, Welcome</p><br />
-
-          <a href="addProduct.php" class="vbutton text-none">New Product / Comic Book</a><br /><br />
+          <div class="admin-hero">
+               <div>
+                    <p class="admin-eyebrow">Admin Panel</p>
+                    <h1>Manage Comic Books</h1>
+                    <p>Review, edit, and remove catalog items from one place.</p>
+               </div>
+               <div class="admin-summary">
+                    <span><?= $productCount ?></span>
+                    <small>Total Products</small>
+               </div>
+               <a href="addProduct.php" class="admin-add-button text-none">New Product / Comic Book</a>
+          </div>
 
           <table class="tblProducts">
                <thead>

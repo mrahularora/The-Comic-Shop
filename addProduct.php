@@ -3,15 +3,16 @@ include 'includes/session_start.php';
 include_once 'config/database.php';
 include_once 'includes/classes.php';
 include_once 'includes/functions.php';
-redirectIfNotLoggedIn();
 
 $msg = $name = $description = $long_description = $price = $category_id = "";
 $errors = [];
 $image_name = "";
 
 $db = new Database();
-$objProducts = new ProductItem($db->getConnection());
-$objCategories = new Categories($db->getConnection());
+$conn = $db->getConnection();
+redirectIfNotAdmin($conn);
+$objProducts = new ProductItem($conn);
+$objCategories = new Categories($conn);
 $categories = $objCategories->getCategories();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

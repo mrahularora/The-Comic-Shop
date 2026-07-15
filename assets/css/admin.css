@@ -1,28 +1,126 @@
+.admin-panel {
+     color: #1f2937;
+}
+
+.admin-hero {
+     align-items: center;
+     background: #f8fafc;
+     border: 1px solid #e5e7eb;
+     display: flex;
+     gap: 24px;
+     justify-content: space-between;
+     margin-bottom: 24px;
+     padding: 24px;
+}
+
+.admin-hero h1 {
+     margin: 0 0 6px;
+}
+
+.admin-hero p {
+     color: #64748b;
+     margin: 0;
+}
+
+.admin-eyebrow {
+     color: #dc3545 !important;
+     font-size: 13px;
+     font-weight: 800;
+     letter-spacing: 0;
+     text-transform: uppercase;
+}
+
+.admin-summary {
+     border-left: 1px solid #e5e7eb;
+     border-right: 1px solid #e5e7eb;
+     min-width: 140px;
+     padding: 0 24px;
+     text-align: center;
+}
+
+.admin-summary span {
+     display: block;
+     font-size: 34px;
+     font-weight: 800;
+}
+
+.admin-summary small {
+     color: #64748b;
+     font-weight: 700;
+}
+
+.admin-add-button {
+     background: #dc3545;
+     border: 1px solid #dc3545;
+     color: #fff;
+     display: inline-block;
+     font-weight: 700;
+     padding: 11px 16px;
+}
+
+.admin-add-button:hover {
+     background: #fff;
+     color: #dc3545;
+}
+
 table {
      width: 100%;
      border-collapse: collapse;
      margin-bottom: 20px;
+     background: #fff;
 }
 
 th,
 td {
      border: 1px solid #ddd;
-     padding: 5px;
+     padding: 10px;
      text-align: center;
+     vertical-align: middle;
 }
 
 th {
-     background-color: #f2f2f2;
+     background-color: #f8fafc;
+     color: #374151;
+     padding: 12px 10px;
 }
 
 .tblProducts img {
-     max-width: 30%;
+     max-width: 72px;
      height: auto;
 }
 
 .action-buttons {
      display: flex;
-     gap: 2px;
+     gap: 8px;
+     justify-content: center;
+}
+
+.action-buttons .button {
+     margin-top: 0;
+     min-width: 38px;
+}
+
+.edit-button {
+     background: dodgerblue;
+     border-color: dodgerblue;
+}
+
+.delete-button {
+     background: #dc3545;
+     border-color: #dc3545;
+}
+
+@media screen and (max-width: 900px) {
+     .admin-hero {
+          align-items: flex-start;
+          flex-direction: column;
+     }
+
+     .admin-summary {
+          border: 0;
+          padding: 0;
+          text-align: left;
+     }
 }
 
 

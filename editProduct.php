@@ -3,11 +3,12 @@ include 'includes/session_start.php';
 include_once 'includes/classes.php';
 include_once 'config/database.php';
 include_once 'includes/functions.php';
-redirectIfNotLoggedIn();
 
 $db = new Database();
-$objProduct = new ProductItem($db->getConnection());
-$objCategories = new Categories($db->getConnection());
+$conn = $db->getConnection();
+redirectIfNotAdmin($conn);
+$objProduct = new ProductItem($conn);
+$objCategories = new Categories($conn);
 
 $categories = $objCategories->getCategories();
 

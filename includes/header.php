@@ -38,6 +38,9 @@ if (isset($_GET['logout'])) {
             <a href="shop.php">Shop</a>
             <a href="about.php">About</a>
             <a href="contact.php">Contact</a>
+            <?php if (($_SESSION['user_role'] ?? '') === 'admin'): ?>
+                <a href="admin.php">Admin</a>
+            <?php endif; ?>
         </div>
 
         <div class="nav-actions">

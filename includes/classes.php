@@ -259,9 +259,10 @@ class Order
         $this->db->beginTransaction();
         try {
             // Calculate the total price for the order
-            $total = array_sum(array_map(function ($quantity, $product_id) {
+            $subtotal = array_sum(array_map(function ($quantity, $product_id) {
                 return $this->getProductPrice($product_id) * $quantity;
             }, $cart, array_keys($cart)));
+            $total = $subtotal * 1.13;
 
             // Insert the order
             $stmt = $this->db->prepare("INSERT INTO orders (user_id, total_price, shipping_address, zip_code, contact_number) VALUES (?, ?, ?, ?, ?)");

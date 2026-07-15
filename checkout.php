@@ -6,6 +6,7 @@ include_once 'includes/functions.php';
 redirectIfNotLoggedIn();
 
 $db = new Database();
+$product = new ProductItem($db->getConnection());
 $cart = new ShoppingCart(); 
 $order = new Order($db->getConnection()); 
 
@@ -17,6 +18,37 @@ if (empty($cart_items)) {
     header('Location: cart.php');
     exit();
 }
+
+$checkout_items = [];
+$subtotal = 0;
+$total_items = 0;
+foreach ($cart_items as $product_id => $quantity) {
+    $prod = $product->getProductById($product_id);
+    if (!$prod) {
+        $cart->removeItem($product_id);
+        continue;
+    }
+
+    $item_total = $prod['price'] * $quantity;
+    $checkout_items[] = [
+        'id' => $product_id,
+        'name' => $prod['name'],
+        'image' => $prod['image'],
+        'quantity' => $quantity,
+        'price' => $prod['price'],
+        'total' => $item_total,
+    ];
+    $subtotal += $item_total;
+    $total_items += $quantity;
+}
+
+if (empty($checkout_items)) {
+    header('Location: cart.php');
+    exit();
+}
+
+$tax = $subtotal * 0.13;
+$order_total = $subtotal + $tax;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
@@ -93,71 +125,98 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!-- Main Content -->
 
-<main class="mid75">
-    <section class="marginbottom30 margin70">
+<main class="checkout-main">
+    <section class="checkout-page">
+        <div class="checkout-heading">
+            <div>
+                <p class="eyebrow">Secure checkout</p>
+                <h1>Checkout</h1>
+                <p>Review your comics, enter delivery details, and place your order.</p>
+            </div>
+            <a href="cart.php" class="button text-none">Back to Cart</a>
+        </div>
 
-    <h1 class="center">Checkout</h1><br />
-
-    <div class="width60 marginauto">
-    <a href="cart.php" class="button text-none">Back to Cart</a><br /><br />
-
-    <?php echo @$display; ?><br />
-
-    <form method="post" onsubmit="return validateForm()">
-
-            <h1>Customer Details</h1><Br />
+        <div class="checkout-layout">
+            <form method="post" class="checkout-form">
+                <div class="checkout-card">
+                    <h2>Customer Details</h2>
             <div class="form-group">
                 <label for="name">Full Name<span class="red">*</span></label>
-                <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($name); ?>" >
+                <input type="text" id="name" name="name" class="form-control" autocomplete="name" value="<?php echo htmlspecialchars($name); ?>" >
                 <small id="name-error" ><?php echo $errors['name'] ?? ''; ?></small>
             </div>
             <div class="form-group">
                 <label for="contact">Contact Number<span class="red">*</span></label>
-                <input type="text" id="contact" name="contact" class="form-control" value="<?php echo htmlspecialchars($contact); ?>" >
+                <input type="text" id="contact" name="contact" class="form-control" inputmode="numeric" autocomplete="tel" value="<?php echo htmlspecialchars($contact); ?>" >
                 <small id="contact-error" ><?php echo $errors['contact'] ?? ''; ?></small>
             </div>
             <div class="form-group">
                 <label for="address">Address<span class="red">*</span></label>
-                <textarea id="address" name="address" cols="50" rows="6" class="form-control" ><?php echo htmlspecialchars($address); ?></textarea>
+                <textarea id="address" name="address" rows="5" class="form-control" autocomplete="street-address"><?php echo htmlspecialchars($address); ?></textarea>
                 <small id="address-error" ><?php echo $errors['address'] ?? ''; ?></small>
             </div>
             <div class="form-group">
                 <label for="zip_code">Zip Code<span class="red">*</span></label>
-                <input type="text" id="zip_code" name="zip_code" class="form-control" value="<?php echo htmlspecialchars($zip_code); ?>" >
+                <input type="text" id="zip_code" name="zip_code" class="form-control" autocomplete="postal-code" value="<?php echo htmlspecialchars($zip_code); ?>" >
                 <small id="zip_code-error" ><?php echo $errors['zip_code'] ?? ''; ?></small>
             </div>
+                </div>
 
-        
-            <h1>Payment Details</h1>
+                <div class="checkout-card">
+            <h2>Payment Details</h2>
             <div class="form-group">
                 <label for="card_number">Card Number<span class="red">*</span></label>
-                <input type="text" id="card_number" name="card_number" class="form-control" value="<?php echo htmlspecialchars($card_number); ?>" >
+                <input type="text" id="card_number" name="card_number" class="form-control" inputmode="numeric" autocomplete="cc-number" value="<?php echo htmlspecialchars($card_number); ?>" >
                 <small id="card_number-error" ><?php echo $errors['card_number'] ?? ''; ?></small>
             </div>
-            <div class="form-group">
-                <label for="card_expiry">Expiration Date<span class="red">*</span></label>
-                <input type="text" id="card_expiry" name="card_expiry" class="form-control" placeholder="MM/YY" value="<?php echo htmlspecialchars($card_expiry); ?>" >
-                <small id="card_expiry-error" ><?php echo $errors['card_expiry'] ?? ''; ?></small>
-            </div>
-            <div class="form-group">
-                <label for="card_cvv">CVV<span class="red">*</span></label>
-                <input type="text" id="card_cvv" name="card_cvv" class="form-control" value="<?php echo htmlspecialchars($card_cvv); ?>" >
-                <small id="card_cvv-error" ><?php echo $errors['card_cvv'] ?? ''; ?></small>
+            <div class="checkout-two-column">
+                <div class="form-group">
+                    <label for="card_expiry">Expiration Date<span class="red">*</span></label>
+                    <input type="text" id="card_expiry" name="card_expiry" class="form-control" placeholder="MM/YY" autocomplete="cc-exp" value="<?php echo htmlspecialchars($card_expiry); ?>" >
+                    <small id="card_expiry-error" ><?php echo $errors['card_expiry'] ?? ''; ?></small>
+                </div>
+                <div class="form-group">
+                    <label for="card_cvv">CVV<span class="red">*</span></label>
+                    <input type="text" id="card_cvv" name="card_cvv" class="form-control" inputmode="numeric" autocomplete="cc-csc" value="<?php echo htmlspecialchars($card_cvv); ?>" >
+                    <small id="card_cvv-error" ><?php echo $errors['card_cvv'] ?? ''; ?></small>
+                </div>
             </div>
             <div class="form-group">
                 <label for="cardholder_name">Cardholder Name<span class="red">*</span></label>
-                <input type="text" id="cardholder_name" name="cardholder_name" class="form-control" value="<?php echo htmlspecialchars($cardholder_name); ?>" >
+                <input type="text" id="cardholder_name" name="cardholder_name" class="form-control" autocomplete="cc-name" value="<?php echo htmlspecialchars($cardholder_name); ?>" >
                 <small id="cardholder_name-error" ><?php echo $errors['cardholder_name'] ?? ''; ?></small>
             </div>
+                </div>
 
-        <button type="submit" class="vbutton text-none">Place Order</button>
-        <a href="cart.php" class="button text-none">Cancel</a>
-    </form>
-    
-    </div>
-    
+                <div class="checkout-actions">
+                    <button type="submit" class="vbutton text-none">Place Order</button>
+                    <a href="cart.php" class="button text-none">Cancel</a>
+                </div>
+            </form>
 
-</section>
+            <aside class="checkout-summary">
+                <h2>Order Summary</h2>
+                <p class="checkout-muted"><?= htmlspecialchars($total_items) ?> item(s) in your cart</p>
+
+                <?php foreach ($checkout_items as $item): ?>
+                    <div class="checkout-summary-item">
+                        <img src="<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>">
+                        <div>
+                            <strong><?= htmlspecialchars($item['name']) ?></strong>
+                            <span>Qty <?= htmlspecialchars($item['quantity']) ?> x $<?= number_format($item['price'], 2) ?></span>
+                        </div>
+                        <b>$<?= number_format($item['total'], 2) ?></b>
+                    </div>
+                <?php endforeach; ?>
+
+                <div class="checkout-totals">
+                    <p><span>Subtotal</span><strong>$<?= number_format($subtotal, 2) ?></strong></p>
+                    <p><span>Estimated Tax</span><strong>$<?= number_format($tax, 2) ?></strong></p>
+                    <p class="checkout-total"><span>Total</span><strong>$<?= number_format($order_total, 2) ?></strong></p>
+                </div>
+            </aside>
+        </div>
+    </section>
 </main>
 
 <?php include 'includes/footer.php'; ?>

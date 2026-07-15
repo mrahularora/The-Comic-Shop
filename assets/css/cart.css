@@ -116,3 +116,152 @@
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+.checkout-main {
+    background: #f7f7f8;
+    margin-top: 48px;
+    padding: 50px 0;
+}
+
+.checkout-page {
+    margin: 0 auto;
+    width: 80%;
+}
+
+.checkout-heading {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.checkout-heading h1 {
+    color: #202631;
+    font-size: 36px;
+    margin: 4px 0 8px;
+}
+
+.checkout-heading p {
+    color: #555;
+}
+
+.checkout-layout {
+    align-items: start;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.checkout-form,
+.checkout-summary,
+.checkout-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+}
+
+.checkout-form {
+    display: grid;
+    gap: 18px;
+}
+
+.checkout-card,
+.checkout-summary {
+    padding: 24px;
+}
+
+.checkout-card h2,
+.checkout-summary h2 {
+    color: #202631;
+    margin-bottom: 18px;
+}
+
+.checkout-card textarea,
+.checkout-card input {
+    width: 100%;
+}
+
+.checkout-two-column {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.checkout-actions {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    padding: 18px 24px;
+}
+
+.checkout-summary {
+    position: sticky;
+    top: 120px;
+}
+
+.checkout-muted {
+    color: #666;
+    margin-bottom: 18px;
+}
+
+.checkout-summary-item {
+    align-items: center;
+    border-top: 1px solid #eee;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 54px 1fr auto;
+    padding: 14px 0;
+}
+
+.checkout-summary-item img {
+    height: 72px;
+    object-fit: cover;
+    width: 54px;
+}
+
+.checkout-summary-item strong,
+.checkout-summary-item span {
+    display: block;
+}
+
+.checkout-summary-item span {
+    color: #666;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.checkout-totals {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding-top: 14px;
+}
+
+.checkout-totals p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.checkout-total {
+    color: #dc3545;
+    font-size: 20px;
+}
+
+@media (max-width: 900px) {
+    .checkout-page {
+        width: 92%;
+    }
+
+    .checkout-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .checkout-layout,
+    .checkout-two-column {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-summary {
+        position: static;
+    }
+}

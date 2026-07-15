@@ -2,6 +2,7 @@
 include_once __DIR__ . '/session_start.php';
 
 $cartCount = array_sum(array_map('intval', $_SESSION['cart'] ?? []));
+$newsletterEmail = $_SESSION['user_email'] ?? '';
 
 // Handle logout
 if (isset($_GET['logout'])) {

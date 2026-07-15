@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2>Join the Comic Book Shop Community!</h2>
             <p>Get the latest news, releases, and exclusive content delivered right to your inbox.</p>
             <form action="subscribe.php" method="post">
-                <input type="email" name="email" placeholder="Enter your email address" required>
+                <input type="email" name="email" placeholder="Log in to use your account email" value="<?= htmlspecialchars($newsletterEmail) ?>" <?= $newsletterEmail ? 'readonly' : '' ?> required>
                 <input type="submit" value="Subscribe">
             </form>
         </div>

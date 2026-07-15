@@ -443,6 +443,11 @@ main {
     margin-right: 10px;
 }
 
+.newsletter input[readonly] {
+    background: #eef2f7;
+    color: #555;
+}
+
 .newsletter input[type="submit"] {
     padding: 10px 20px;
     border: none;

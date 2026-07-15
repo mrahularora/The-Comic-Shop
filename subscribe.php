@@ -4,10 +4,21 @@ include_once 'config/database.php';
 
 $refererPath = parse_url($_SERVER['HTTP_REFERER'] ?? '', PHP_URL_PATH);
 $redirect = $refererPath ? basename($refererPath) : 'index.php';
-$email = trim($_POST['email'] ?? '');
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $_SESSION['newsletter_message'] = 'Please enter a valid email address.';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: $redirect");
+    exit();
+}
+
+if (!isset($_SESSION['user_id'], $_SESSION['user_email'])) {
+    $_SESSION['newsletter_message'] = 'Please log in to subscribe with your account email.';
+    header('Location: login.php');
+    exit();
+}
+
+$email = trim($_SESSION['user_email']);
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION['newsletter_message'] = 'Your account email is not valid.';
     header("Location: $redirect");
     exit();
 }

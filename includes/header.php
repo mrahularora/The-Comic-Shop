@@ -6,6 +6,11 @@ $newsletterEmail = $_SESSION['user_email'] ?? '';
 
 // Handle logout
 if (isset($_GET['logout'])) {
+    if (!is_string($_GET['csrf_token'] ?? '') || !hash_equals(csrf_token(), $_GET['csrf_token'])) {
+        http_response_code(403);
+        exit('Invalid security token.');
+    }
+
     session_unset();
     session_destroy();
     header('Location: index.php');
@@ -58,7 +63,7 @@ if (isset($_GET['logout'])) {
             </a>
             <?php if (isset($_SESSION['user_id'])): ?>
                 <span class="nav-user">Hi, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
-                <a href="?logout" class="nav-button">Logout</a>
+                <a href="?logout=1&csrf_token=<?php echo urlencode(csrf_token()); ?>" class="nav-button">Logout</a>
             <?php else: ?>
                 <a href="signup.php">Sign Up</a>
                 <a href="login.php" class="nav-button">Login</a>

@@ -11,9 +11,10 @@ $objProduct = new ProductItem($conn);
 $objOrder = new Order($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+     verify_csrf_token();
 
      if (isset($_POST['product_id'])) {
-          $res = $objProduct->deleteProduct(htmlspecialchars($_POST['product_id']));
+          $res = $objProduct->deleteProduct((int) $_POST['product_id']);
 
           if ($res)
                echo "<p class='info'>The product was successfully deleted.</p>";
@@ -89,6 +90,7 @@ $orderCount = $objOrder->getOrderCount();
                                                   </form>
 
                                                   <form method="POST" action="admin.php" style="display:inline-block;">
+                                                       ' . csrf_field() . '
                                                        <input type="hidden" name="product_id" value="' . $pid . '">
                                                        <button class="button delete-button" type="submit" name="action" value="delete">
                                                        <i class="fas fa-trash-alt"></i>

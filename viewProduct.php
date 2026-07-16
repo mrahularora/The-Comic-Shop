@@ -18,6 +18,8 @@ if (!$prod) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verify_csrf_token();
+
     $_SESSION['cart_message'] = $cart->addToCart($_POST['product_id'], $_POST['quantity']) === 'success'
         ? 'Comic added to your cart.'
         : 'This comic could not be added. Maximum quantity is 5.';
@@ -65,6 +67,7 @@ $productDetails = [
                 </div>
                 <p class="product-price"><strong>Price: $<?= number_format($prod['price'], 2) ?></strong></p>
                 <form method="post">
+                    <?= csrf_field() ?>
                     <input type="hidden" name="product_id" value="<?= $prod['id'] ?>">
                     <div class="quantity-group">
                         <label for="quantity">Quantity:</label>
@@ -80,6 +83,7 @@ $productDetails = [
             <h2>Join the Comic Book Shop Community!</h2>
             <p>Get the latest news, releases, and exclusive content delivered right to your inbox.</p>
             <form action="subscribe.php" method="post">
+                <?= csrf_field() ?>
                 <input type="email" name="email" placeholder="Log in to use your account email" value="<?= htmlspecialchars($newsletterEmail) ?>" <?= $newsletterEmail ? 'readonly' : '' ?> required>
                 <input type="submit" value="Subscribe">
             </form>

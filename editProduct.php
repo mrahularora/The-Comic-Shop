@@ -17,23 +17,29 @@ $errors = [];
 $image_name = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-     $product_id = htmlspecialchars($_POST["product_id"]);
-     $current_image = htmlspecialchars($_POST["current_image"]);
+     verify_csrf_token();
+
+     $product_id = (int) ($_POST["product_id"] ?? 0);
+     $currentProduct = $objProduct->getProductById($product_id);
+     if (!$currentProduct) {
+          redirect();
+     }
+     $current_image = $currentProduct["image"];
 
      if (!empty($_POST["name"])) {
-          $name = $_POST["name"];
+          $name = trim($_POST["name"]);
      } else {
           $errors[] = "Name is required";
      }
 
      if (!empty($_POST["description"])) {
-          $description = $_POST["description"];
+          $description = trim($_POST["description"]);
      } else {
           $errors[] = "Description is required";
      }
 
      if (!empty($_POST["long_description"])) {
-          $long_description = $_POST["long_description"];
+          $long_description = trim($_POST["long_description"]);
      } else {
           $errors[] = "Long description is required";
      }
@@ -62,11 +68,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      }
 
      if (!empty($_FILES["productImage"]["name"])) {
-          $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
-          $fileType = finfo_file($fileInfo, $_FILES["productImage"]["tmp_name"]);
+          if ($_FILES["productImage"]["error"] !== UPLOAD_ERR_OK) {
+               $errors[] = "Image upload failed.";
+          } elseif ($_FILES["productImage"]["size"] > 2 * 1024 * 1024) {
+               $errors[] = "Image must be 2MB or smaller.";
+          } else {
+               $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+               $fileType = finfo_file($fileInfo, $_FILES["productImage"]["tmp_name"]);
+               finfo_close($fileInfo);
+               $allowedTypes = [
+                    "image/jpeg" => "jpg",
+                    "image/webp" => "webp",
+                    "image/png" => "png",
+                    "image/x-ms-bmp" => "bmp",
+               ];
 
-          if (in_array($fileType, ["image/jpeg", "image/webp", "image/png", "image/x-ms-bmp"])) {
-               $ext = explode("/", $fileType)[1];
+               if (isset($allowedTypes[$fileType])) {
+               $ext = $allowedTypes[$fileType];
                $newFileName = "images/products/" . uniqid("upload_", true) . ".$ext";
 
                if (move_uploaded_file($_FILES["productImage"]["tmp_name"], $newFileName)) {
@@ -76,6 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                }
           } else {
                $errors[] = "Invalid image file type";
+          }
           }
      } else {
           $image_name = $current_image;
@@ -93,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $msg .= "<a href='admin.php'><button>OK</button></a>";
      }
 } else {
-     $product_id = $_GET["product_id"];
+     $product_id = (int) ($_GET["product_id"] ?? 0);
      $product = $objProduct->getProductById($product_id);
 
      if ($product) {
@@ -108,6 +127,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $format = $product["format"] ?? "";
           $age_rating = $product["age_rating"] ?? "";
      }
+
+     if (!$product) {
+          redirect();
+     }
 }
 ?>
 
@@ -121,10 +144,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                <h3>Edit Product</h3>
 
                <form action="editProduct.php" method="POST" enctype="multipart/form-data">
+               <?= csrf_field() ?>
 
                <div class="form-group">
                     <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>" />
-                    <input type="hidden" name="current_image" value="<?= htmlspecialchars($image_name) ?>" />
                </div>
                
                <div class="form-group">

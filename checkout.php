@@ -55,6 +55,7 @@ $tax = $subtotal * 0.13;
 $order_total = $subtotal + $tax;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verify_csrf_token();
   
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
     $contact = isset($_POST['contact']) ? trim($_POST['contact']) : '';
@@ -142,6 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="checkout-layout">
             <form method="post" class="checkout-form">
+                <?= csrf_field() ?>
                 <div class="checkout-card">
                     <h2>Customer Details</h2>
             <div class="form-group">

@@ -16,20 +16,22 @@ $objCategories = new Categories($conn);
 $categories = $objCategories->getCategories();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+     verify_csrf_token();
+
      if (!empty($_POST["name"])) {
-          $name = $_POST["name"];
+          $name = trim($_POST["name"]);
      } else {
           $errors[] = "Name is required";
      }
 
      if (!empty($_POST["description"])) {
-          $description = $_POST["description"];
+          $description = trim($_POST["description"]);
      } else {
           $errors[] = "Description is required";
      }
 
      if (!empty($_POST["long_description"])) {
-          $long_description = $_POST["long_description"];
+          $long_description = trim($_POST["long_description"]);
      } else {
           $errors[] = "Long description is required";
      }
@@ -58,11 +60,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      }
 
      if (!empty($_FILES["productImage"]["name"])) {
-          $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
-          $fileType = finfo_file($fileInfo, $_FILES["productImage"]["tmp_name"]);
+          if ($_FILES["productImage"]["error"] !== UPLOAD_ERR_OK) {
+               $errors[] = "Image upload failed.";
+          } elseif ($_FILES["productImage"]["size"] > 2 * 1024 * 1024) {
+               $errors[] = "Image must be 2MB or smaller.";
+          } else {
+               $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+               $fileType = finfo_file($fileInfo, $_FILES["productImage"]["tmp_name"]);
+               finfo_close($fileInfo);
+               $allowedTypes = [
+                    "image/jpeg" => "jpg",
+                    "image/webp" => "webp",
+                    "image/png" => "png",
+                    "image/x-ms-bmp" => "bmp",
+               ];
 
-          if (in_array($fileType, ["image/jpeg", "image/webp", "image/png", "image/x-ms-bmp"])) {
-               $ext = explode("/", $fileType)[1];
+               if (isset($allowedTypes[$fileType])) {
+               $ext = $allowedTypes[$fileType];
                $newFileName = "images/products/" . uniqid("upload_", true) . ".$ext";
 
                if (move_uploaded_file($_FILES["productImage"]["tmp_name"], $newFileName)) {
@@ -72,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                }
           } else {
                $errors[] = "Invalid image file type";
+          }
           }
      } else {
           $errors[] = "Image is required";
@@ -95,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                <h2 class="center">Add New Comic Book</h2><br />
 
                <form class="marginauto" action="addProduct.php" method="POST" enctype="multipart/form-data">
+                    <?= csrf_field() ?>
                
                     <div class="form-group">
                          <label for="name">Comic Name / Title <span class="red">*</span></label>

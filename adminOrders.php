@@ -13,6 +13,8 @@ $message = '';
 $statuses = ['Processing', 'Shipped', 'Delivered', 'Cancelled'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verify_csrf_token();
+
     $order_id = (int) ($_POST['order_id'] ?? 0);
     $status = $_POST['status'] ?? '';
 
@@ -76,6 +78,7 @@ $orders = $order->getAllOrders();
                                 <td>$<?= number_format($item['total_price'], 2) ?></td>
                                 <td>
                                     <form method="post" class="admin-status-form">
+                                        <?= csrf_field() ?>
                                         <input type="hidden" name="order_id" value="<?= htmlspecialchars($item['id']) ?>">
                                         <select name="status">
                                             <?php foreach ($statuses as $status): ?>

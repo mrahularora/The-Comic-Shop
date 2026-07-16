@@ -25,8 +25,8 @@ class SignupController
             return;
         }
 
-        $name = $data['name'] ?? '';
-        $email = $data['email'] ?? '';
+        $name = trim($data['name'] ?? '');
+        $email = strtolower(trim($data['email'] ?? ''));
         $password = $data['password'] ?? '';
 
         if (empty($name) || empty($email) || empty($password)) {
@@ -34,6 +34,33 @@ class SignupController
             echo json_encode([
                 "status" => "error",
                 "message" => "Name, email, and password are required."
+            ]);
+            return;
+        }
+
+        if (!preg_match('/^[A-Za-z][A-Za-z0-9 _-]{2,49}$/', $name)) {
+            http_response_code(400);
+            echo json_encode([
+                "status" => "error",
+                "message" => "Username must be 3-50 characters and start with a letter."
+            ]);
+            return;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(400);
+            echo json_encode([
+                "status" => "error",
+                "message" => "A valid email address is required."
+            ]);
+            return;
+        }
+
+        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/', $password)) {
+            http_response_code(400);
+            echo json_encode([
+                "status" => "error",
+                "message" => "Password must be at least 8 characters and include uppercase, lowercase, and a number."
             ]);
             return;
         }
@@ -55,7 +82,7 @@ class SignupController
         }
 
         // Hash the password and insert new user
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $this->pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (:name, :email, :password)");
         try {
             $stmt->execute([
@@ -73,7 +100,7 @@ class SignupController
             http_response_code(500);
             echo json_encode([
                 "status" => "error",
-                "message" => "Database error: " . $e->getMessage()
+                "message" => "Registration failed. Please try again."
             ]);
         }
     }

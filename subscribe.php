@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
+verify_csrf_token();
+
 if (!isset($_SESSION['user_id'], $_SESSION['user_email'])) {
     $_SESSION['newsletter_message'] = 'Please log in to subscribe with your account email.';
     header('Location: login.php');

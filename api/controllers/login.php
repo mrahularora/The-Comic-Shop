@@ -16,8 +16,9 @@ class LoginController
 
     public function login()
     {
-        // Start the session
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
         // Get POST data
         $data = json_decode(file_get_contents("php://input"), true);
@@ -30,14 +31,14 @@ class LoginController
             ]);
         }
 
-        $email = $data['email'] ?? '';
+        $email = strtolower(trim($data['email'] ?? ''));
         $password = $data['password'] ?? '';
 
-        if (empty($email) || empty($password)) {
+        if (empty($email) || empty($password) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             http_response_code(400);
             return json_encode([
                 "status" => "error",
-                "message" => "Email and password are required."
+                "message" => "A valid email and password are required."
             ]);
         }
 
@@ -47,6 +48,8 @@ class LoginController
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password_hash'])) {
+            session_regenerate_id(true);
+
             // Set session variables
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['username'];

@@ -12,11 +12,11 @@ redirectIfLoggedIn();
             <form id="loginForm" class="login-form">
                 <div class="form-group">
                     <label for="email">Email Address:</label>
-                    <input type="text" id="email" name="email" placeholder="Enter your email address">
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" autocomplete="email" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                    <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
                 </div>
                 <button type="submit" class="button">Login</button>
                 <p class="signup-prompt">Don't have an account? <a href="signup.php" class="signup-link">Sign up</a></p>
@@ -60,6 +60,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
     xhttp.open("POST", "api/login", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.setRequestHeader("X-CSRF-Token", "<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>");
     xhttp.send(JSON.stringify({
         email: email,
         password: password

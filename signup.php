@@ -12,19 +12,19 @@ redirectIfLoggedIn();
                 <form id="signupForm" class="signup-form">
                     <div class="form-group">
                         <label for="name">Username:</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your username" />
+                        <input type="text" id="name" name="name" placeholder="Enter your username" autocomplete="username" minlength="3" maxlength="50" required />
                     </div>
                     <div class="form-group">
                         <label for="email">Email Address:</label>
-                        <input type="text" id="email" name="email" placeholder="Enter your email address" />
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" autocomplete="email" required />
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" />
+                        <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="new-password" minlength="8" required />
                     </div>
                     <div class="form-group">
                         <label for="confirm_password">Confirm Password:</label>
-                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" />
+                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" autocomplete="new-password" minlength="8" required />
                     </div>
                     <button type="submit" class="button">Sign Up</button>
                     <p class="login-prompt">Already have an account? <a href="login.php" class="login-link">Login</a></p>
@@ -110,6 +110,7 @@ redirectIfLoggedIn();
 
     xhttp.open("POST", "api/signup", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.setRequestHeader("X-CSRF-Token", "<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>");
     xhttp.send(JSON.stringify({
         name: name,
         email: email,

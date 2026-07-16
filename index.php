@@ -3,18 +3,12 @@ include 'includes/session_start.php';
 include_once 'config/database.php';
 include_once 'includes/classes.php';
 
-
-if($_SERVER["REQUEST_METHOD"]=="POST")
-    {
-        unset($_COOKIE["visited"]);
-        setcookie("visited",0,time() - 3600,"/");
+if (isset($_GET['logout'])) {
+    if (!is_string($_GET['csrf_token'] ?? '') || !hash_equals(csrf_token(), $_GET['csrf_token'])) {
+        http_response_code(403);
+        exit('Invalid security token.');
     }
 
-    if(empty($_COOKIE["visited"]))
-        setcookie("visited","1",time() + 10,"/");
-    else
-        setcookie("visited",((int)$_COOKIE["visited"]) + 1,time() + 10,"/");
-if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
     header('Location: index.php');
@@ -32,6 +26,8 @@ if (isset($_GET['id'])) {
     $prod = $getprod->getProductById($_GET['id']);
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verify_csrf_token();
+
     $_SESSION['cart_message'] = $cart->addToCart($_POST['product_id'], 1) === 'success'
         ? 'Comic added to your cart.'
         : 'This comic could not be added. Maximum quantity is 5.';
@@ -82,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo '
                 <div class="product">
                     <form method="post">
+                        '.csrf_field().'
                         <input type="hidden" name="product_id" value="'.$pid.'">
                         <a href="viewProduct.php?id='.$pid.'">
                             <img src="'.$pimage.'" width="100%" alt="Product.'.$pname.'" class="scale" />
@@ -129,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo '
                 <div class="product">
                     <form method="post">
+                        '.csrf_field().'
                         <input type="hidden" name="product_id" value="'.$dcpid.'">
                         <a href="viewProduct.php?id='.$dcpid.'">
                             <img src="'.$dcpimage.'" width="100%"  alt="Product.'.$dcpname.'" class="scale" />
@@ -167,6 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo '
                 <div class="product">
                     <form method="post">
+                        '.csrf_field().'
                         <input type="hidden" name="product_id" value="'.$otherpid.'">
                         <a href="viewProduct.php?id='.$otherpid.'">
                             <img src="'.$otherpimage.'" width="100%" alt="Product.'.$otherpname.'" class="scale" />
@@ -194,6 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2>Join the Comic Book Shop Community!</h2>
             <p>Get the latest news, releases, and exclusive content delivered right to your inbox.</p>
             <form action="subscribe.php" method="post">
+                <?= csrf_field() ?>
                 <input type="email" name="email" placeholder="Log in to use your account email" value="<?= htmlspecialchars($newsletterEmail) ?>" <?= $newsletterEmail ? 'readonly' : '' ?> required>
                 <input type="submit" value="Subscribe">
             </form>

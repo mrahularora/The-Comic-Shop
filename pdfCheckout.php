@@ -144,6 +144,10 @@ if (!empty($_GET["order_id"])) {
      $order = new Order($connection);
 
      $isAdminDownload = isset($_GET['admin']) && (($_SESSION['user_role'] ?? '') === 'admin');
+     if ($isAdminDownload) {
+          redirectIfNotAdmin($connection);
+     }
+
      $orderDetails = $isAdminDownload
           ? $order->getOrderDetails($orderId)
           : $order->getOrderDetails($orderId, $_SESSION['user_id']);
@@ -184,6 +188,7 @@ if (!empty($_GET["order_id"])) {
 
      $pdf->Output('F', "pdf/order_details_$orderId.pdf");
      header ("Location: thankYou.php?order_id=" . $orderId . "");
+     exit;
 } else {
      $errors[] = "Order ID is not valid";
 }

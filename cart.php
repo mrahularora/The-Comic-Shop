@@ -10,6 +10,8 @@ $cart = new ShoppingCart();
 $error_message = '';
 
 if (isset($_POST['action'])) {
+    verify_csrf_token();
+
     if ($_POST['action'] === 'update') {
         $product_id = $_POST['product_id'];
         $quantity = $_POST['quantity'];
@@ -63,6 +65,7 @@ $total = $subtotal + $tax;
     <?php else: ?>
         <div class="right">
             <form action="" method="post" class="inline-form">
+                <?= csrf_field() ?>
                 <input type="hidden" name="action" value="empty">
                 <button type="submit" class="button">Empty Cart</button>
             </form>
@@ -92,6 +95,7 @@ $total = $subtotal + $tax;
 
                             <!-- Update Quantity Form -->
                             <form action="" method="post" class="inline-form">
+                            <?= csrf_field() ?>
                             <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
                             <input type="number" name="quantity" value="<?= htmlspecialchars($quantity) ?>" min="1" max="5" class="input-quantity">
                             <input type="hidden" name="action" value="update">
@@ -100,6 +104,7 @@ $total = $subtotal + $tax;
 
                          <!-- Remove Product Form -->
                          <form action="" method="post" class="inline-form">
+                            <?= csrf_field() ?>
                             <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
                             <input type="hidden" name="action" value="remove">
                             <button type="submit" class="button">Remove</button>
@@ -117,6 +122,7 @@ $total = $subtotal + $tax;
 
             <!-- Empty Cart Form -->
             <form action="" method="post" class="inline-form">
+                <?= csrf_field() ?>
                 <input type="hidden" name="action" value="empty">
                 <button type="submit" class="button">Empty Cart</button>
             </form>

@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . "/../includes/session_start.php";
+
 header("Cache-Control: private, no-cache, no-store, must-revalidate");
 header("Content-Type: application/json");
 
@@ -19,6 +21,8 @@ if (in_array($pathdata[0], $routeClasses)) {
         $routeClassInstance = new $routeClassName();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            verify_csrf_token();
+
             if ($pathdata[0] == "login") {
                 echo $routeClassInstance->login();
             } else if ($pathdata[0] == "signup") {

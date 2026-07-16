@@ -145,6 +145,62 @@
      padding: 12px 16px;
 }
 
+.admin-form-page {
+     max-width: 1120px;
+}
+
+.admin-form-card {
+     background: #fff;
+     border: 1px solid #e5e7eb;
+     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+     padding: 24px;
+}
+
+.admin-form-grid {
+     display: grid;
+     gap: 16px;
+     grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-form-card input,
+.admin-form-card select,
+.admin-form-card textarea {
+     border: 1px solid #d1d5db;
+     padding: 10px;
+     width: 100%;
+}
+
+.admin-form-card textarea {
+     resize: vertical;
+}
+
+.admin-form-card .admin-add-button {
+     cursor: pointer;
+}
+
+.admin-image-preview {
+     align-items: center;
+     border: 1px dashed #cbd5e1;
+     display: flex;
+     gap: 18px;
+     padding: 16px;
+}
+
+.admin-image-preview img {
+     max-height: 180px;
+     max-width: 130px;
+     object-fit: cover;
+}
+
+.admin-image-preview p {
+     color: #64748b;
+     margin: 0 0 14px;
+}
+
+.admin-product-picker {
+     min-width: 720px;
+}
+
 .tblOrders {
      min-width: 1040px;
 }
@@ -210,6 +266,15 @@
      .admin-table-wrap {
           margin-left: -4%;
           width: 108%;
+     }
+
+     .admin-form-grid {
+          grid-template-columns: 1fr;
+     }
+
+     .admin-image-preview {
+          align-items: flex-start;
+          flex-direction: column;
      }
 }
 

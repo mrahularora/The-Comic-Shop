@@ -4,7 +4,7 @@ include_once 'config/database.php';
 include_once 'includes/classes.php';
 include_once 'includes/functions.php';
 
-$msg = $name = $description = $long_description = $price = $category_id = $publisher = $writer = $format = $age_rating = "";
+$name = $description = $long_description = $price = $category_id = $publisher = $writer = $format = $age_rating = "";
 $errors = [];
 $image_name = "";
 
@@ -14,68 +14,59 @@ redirectIfNotAdmin($conn);
 $objProducts = new ProductItem($conn);
 $objCategories = new Categories($conn);
 $categories = $objCategories->getCategories();
+$categoryIds = array_map('intval', array_column($categories, 'id'));
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
      verify_csrf_token();
 
-     if (!empty($_POST["name"])) {
-          $name = trim($_POST["name"]);
-     } else {
-          $errors[] = "Name is required";
-     }
-
-     if (!empty($_POST["description"])) {
-          $description = trim($_POST["description"]);
-     } else {
-          $errors[] = "Description is required";
-     }
-
-     if (!empty($_POST["long_description"])) {
-          $long_description = trim($_POST["long_description"]);
-     } else {
-          $errors[] = "Long description is required";
-     }
-
+     $name = trim($_POST["name"] ?? "");
+     $description = trim($_POST["description"] ?? "");
+     $long_description = trim($_POST["long_description"] ?? "");
      $publisher = trim($_POST["publisher"] ?? "");
      $writer = trim($_POST["writer"] ?? "");
      $format = trim($_POST["format"] ?? "");
      $age_rating = trim($_POST["age_rating"] ?? "");
+     $price = trim($_POST["price"] ?? "");
+     $category_id = (int) ($_POST["category_id"] ?? 0);
 
-     if (!empty($_POST["price"])) {
-          $price = $_POST["price"];
-          if (!preg_match("/^\d{1,6}(\.\d{2})?$/", $price)) {
-               $errors[] = "Price must be numeric (max 999999.99)";
-          }
-     } else {
-          $errors[] = "Price is required";
+     if ($name === "") {
+          $errors[] = "Name is required.";
      }
 
-     if (!empty($_POST["category_id"])) {
-          $category_id = $_POST["category_id"];
-          if (!preg_match("/^\d+$/", $category_id)) {
-               $errors[] = "Category ID must be numeric";
-          }
-     } else {
-          $errors[] = "Category ID is required";
+     if ($description === "") {
+          $errors[] = "Description is required.";
      }
 
-     if (!empty($_FILES["productImage"]["name"])) {
-          if ($_FILES["productImage"]["error"] !== UPLOAD_ERR_OK) {
-               $errors[] = "Image upload failed.";
-          } elseif ($_FILES["productImage"]["size"] > 2 * 1024 * 1024) {
-               $errors[] = "Image must be 2MB or smaller.";
-          } else {
-               $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
-               $fileType = finfo_file($fileInfo, $_FILES["productImage"]["tmp_name"]);
-               finfo_close($fileInfo);
-               $allowedTypes = [
-                    "image/jpeg" => "jpg",
-                    "image/webp" => "webp",
-                    "image/png" => "png",
-                    "image/x-ms-bmp" => "bmp",
-               ];
+     if ($long_description === "") {
+          $errors[] = "Long description is required.";
+     }
 
-               if (isset($allowedTypes[$fileType])) {
+     if (!preg_match("/^\d{1,6}(\.\d{2})?$/", $price)) {
+          $errors[] = "Price must be numeric, like 19.99.";
+     }
+
+     if (!in_array($category_id, $categoryIds, true)) {
+          $errors[] = "Please select a valid category.";
+     }
+
+     if (empty($_FILES["productImage"]["name"])) {
+          $errors[] = "Cover image is required.";
+     } elseif ($_FILES["productImage"]["error"] !== UPLOAD_ERR_OK) {
+          $errors[] = "Image upload failed.";
+     } elseif ($_FILES["productImage"]["size"] > 2 * 1024 * 1024) {
+          $errors[] = "Image must be 2MB or smaller.";
+     } else {
+          $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+          $fileType = finfo_file($fileInfo, $_FILES["productImage"]["tmp_name"]);
+          finfo_close($fileInfo);
+          $allowedTypes = [
+               "image/jpeg" => "jpg",
+               "image/webp" => "webp",
+               "image/png" => "png",
+               "image/x-ms-bmp" => "bmp",
+          ];
+
+          if (isset($allowedTypes[$fileType])) {
                $ext = $allowedTypes[$fileType];
                $newFileName = "images/products/" . uniqid("upload_", true) . ".$ext";
 
@@ -85,16 +76,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $errors[] = "Failed to move uploaded file.";
                }
           } else {
-               $errors[] = "Invalid image file type";
+               $errors[] = "Invalid image file type.";
           }
-          }
-     } else {
-          $errors[] = "Image is required";
      }
 
-     if (count($errors) == 0) {
+     if (empty($errors)) {
           $objProducts->addProduct($name, $description, $long_description, $price, $image_name, $category_id, $publisher, $writer, $format, $age_rating);
-
           header("Location: admin.php");
           exit;
      }
@@ -103,103 +90,100 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php include 'includes/header.php'; ?>
 
-     <main class="margin40 addProduct-main">
-     <section class="margin70 marginbottom30 addProduct-section">
-     <div class="addProduct-container">
-     <a href="admin.php" class="button text-none"><< Back</a><br /><br />
-               <h2 class="center">Add New Comic Book</h2><br />
+<main class="margin70 marginbottom30">
+     <section class="admin-panel admin-form-page">
+          <div class="admin-hero">
+               <div>
+                    <p class="admin-eyebrow">Admin Catalog</p>
+                    <h1>Add Comic Book</h1>
+                    <p>Create a new catalog item with pricing, category, story details, and cover image.</p>
+               </div>
+               <div class="admin-hero-actions">
+                    <a href="admin.php" class="admin-add-button text-none">Back to Products</a>
+                    <a href="editProduct.php" class="admin-add-button text-none">Edit Products</a>
+               </div>
+          </div>
 
-               <form class="marginauto" action="addProduct.php" method="POST" enctype="multipart/form-data">
-                    <?= csrf_field() ?>
-               
+          <?php foreach ($errors as $error): ?>
+               <p class="admin-message"><?= htmlspecialchars($error) ?></p>
+          <?php endforeach; ?>
+
+          <form class="admin-form-card" action="addProduct.php" method="POST" enctype="multipart/form-data">
+               <?= csrf_field() ?>
+
+               <div class="admin-form-grid">
                     <div class="form-group">
                          <label for="name">Comic Name / Title <span class="red">*</span></label>
-                         <input type="text" name="name" placeholder="--Name" value="<?= htmlspecialchars($name) ?>" />
+                         <input type="text" id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
                     </div>
 
                     <div class="form-group">
-                    <label for="description">Description <span class="red">*</span></label>
-                    <input type="text" name="description" placeholder="--Description" value="<?= htmlspecialchars($description) ?>" />
+                         <label for="price">Price <span class="red">*</span></label>
+                         <input type="text" id="price" name="price" value="<?= htmlspecialchars($price) ?>" placeholder="19.99" required>
                     </div>
 
                     <div class="form-group">
+                         <label for="category_id">Category <span class="red">*</span></label>
+                         <select id="category_id" name="category_id" required>
+                              <option value="">-- Select --</option>
+                              <?php foreach ($categories as $category): ?>
+                                   <option value="<?= htmlspecialchars($category['id']) ?>" <?= (int) $category_id === (int) $category['id'] ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($category['name']) ?>
+                                   </option>
+                              <?php endforeach; ?>
+                         </select>
+                    </div>
+
+                    <div class="form-group">
+                         <label for="publisher">Publisher</label>
+                         <input type="text" id="publisher" name="publisher" value="<?= htmlspecialchars($publisher) ?>">
+                    </div>
+
+                    <div class="form-group">
+                         <label for="writer">Writer</label>
+                         <input type="text" id="writer" name="writer" value="<?= htmlspecialchars($writer) ?>">
+                    </div>
+
+                    <div class="form-group">
+                         <label for="format">Format</label>
+                         <input type="text" id="format" name="format" value="<?= htmlspecialchars($format) ?>">
+                    </div>
+
+                    <div class="form-group">
+                         <label for="age_rating">Age Rating</label>
+                         <input type="text" id="age_rating" name="age_rating" value="<?= htmlspecialchars($age_rating) ?>">
+                    </div>
+               </div>
+
+               <div class="form-group">
+                    <label for="description">Short Description <span class="red">*</span></label>
+                    <textarea id="description" name="description" rows="3" required><?= htmlspecialchars($description) ?></textarea>
+               </div>
+
+               <div class="form-group">
                     <label for="long_description">Long Description <span class="red">*</span></label>
-                    <input type="text" name="long_description"  placeholder="--Long Description" value="<?= htmlspecialchars($long_description) ?>" />
-                    </div>
+                    <textarea id="long_description" name="long_description" rows="7" required><?= htmlspecialchars($long_description) ?></textarea>
+               </div>
 
-                    <div class="form-group">
-                    <label for="publisher">Publisher</label>
-                    <input type="text" name="publisher" placeholder="--Publisher" value="<?= htmlspecialchars($publisher) ?>" />
-                    </div>
-
-                    <div class="form-group">
-                    <label for="writer">Writer</label>
-                    <input type="text" name="writer" placeholder="--Writer" value="<?= htmlspecialchars($writer) ?>" />
-                    </div>
-
-                    <div class="form-group">
-                    <label for="format">Format</label>
-                    <input type="text" name="format" placeholder="--Format" value="<?= htmlspecialchars($format) ?>" />
-                    </div>
-
-                    <div class="form-group">
-                    <label for="age_rating">Age Rating</label>
-                    <input type="text" name="age_rating" placeholder="--Age Rating" value="<?= htmlspecialchars($age_rating) ?>" />
-                    </div>
-
-                    <div class="form-group">
-                    <label for="price">Price <span class="red">*</span></label>
-                    <input type="text" name="price" placeholder="--Price" value="<?= htmlspecialchars($price) ?>" />
-                    </div>
-
-                    <div class="form-group">
-                    <label for="category_id">Category ID <span class="red">*</span></label>
-                    <select name="category_id">
-                         <option value=""> -- Select -- </option>
-                         <?php foreach ($categories as $category): ?>
-                              <option value="<?= htmlspecialchars($category['id']) ?>" <?= $category_id == $category['id'] ? 'selected' : '' ?>>
-                                   <?= htmlspecialchars($category['name']) ?>
-                              </option>
-                         <?php endforeach; ?>
-                    </select>
-                    </div>
-
-                    <div class="form-group">
-                    <label for="category_id">Image <span class="red">*</span></label>
-                    <div>
-                         <label class="upload-button" for="productImage">
-                              <img src="images/uploadImage.svg" class="width35" alt="Upload Image">
-                         </label>
-                         <input id="productImage" name="productImage" type="file" />
-                    </div>
-                    <span id="file-name"></span>
-                    </div>
-
-                    <?php
-                    if ($msg == "") {
-                    ?>
+               <div class="form-group">
+                    <label for="productImage">Cover Image <span class="red">*</span></label>
+                    <div class="admin-image-preview">
+                         <img src="images/uploadImage.svg" alt="Upload cover image">
                          <div>
-                              <button type="submit" class="vbutton text-none">Add New Product</button>
-                         </div><br />
-                    <?php
-                    } else {
-                         foreach ($errors as $error)
-                              echo "<p class='error_red'>$error<p>";
-                    }
-                    ?>
-               </form>
+                              <p>Upload JPG, PNG, WebP, or BMP. Max size: 2MB.</p>
+                              <label class="admin-add-button text-none" for="productImage">Choose Image</label>
+                              <input id="productImage" name="productImage" type="file" accept="image/jpeg,image/png,image/webp,image/bmp" required>
+                              <span id="file-name"></span>
+                         </div>
+                    </div>
+               </div>
 
-               <?php
-               foreach ($errors as $error)
-                    echo '<p class="error_red">' . $error . '</p><br/>';
-
-               echo $msg;
-               ?>
-     </div>
+               <div class="admin-hero-actions">
+                    <button type="submit" class="admin-add-button">Add Product</button>
+                    <a href="admin.php" class="continuebutton text-none">Cancel</a>
+               </div>
+          </form>
      </section>
-     </main>
+</main>
 
- 
-     <?php include 'includes/footer.php'; ?>
-
-
+<?php include 'includes/footer.php'; ?>

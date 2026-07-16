@@ -190,6 +190,7 @@
      max-height: 180px;
      max-width: 130px;
      object-fit: cover;
+     width: 100%;
 }
 
 .admin-image-preview p {

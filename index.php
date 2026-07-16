@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section class="mid80">
         <h1 class="margin50"><img src="images/icons/other.png" class="width35" /> Other Comic Books</h1>
-        <div class="productgrid">
+        <div class="productgrid productgrid-left">
         <?php
         if (count($otherproducts) > 0) {
             foreach ($otherproducts as $otherproduct) {

@@ -118,6 +118,11 @@ main {
     justify-content: center;
     text-align: center;
 }
+
+.productgrid-left {
+    justify-content: start;
+}
+
 .productgrid::after{
     content: "";
     display: block;

@@ -5,7 +5,6 @@ include_once 'includes/classes.php';
 
 $db = new Database();
 $getprod = new ProductItem($db->getConnection());
-$sort = isset($_GET['sort']) ? $_GET['sort'] : 'name_asc';
 $sortOptions = [
     'name_asc' => 'Name - A-Z',
     'name_desc' => 'Name - Z-A',
@@ -15,12 +14,11 @@ $sortOptions = [
     'oldest' => 'Oldest First',
     'category' => 'Category',
 ];
+$sort = array_key_exists($_GET['sort'] ?? '', $sortOptions) ? $_GET['sort'] : 'name_asc';
 $products = $getprod->getProducts($sort);
+$productCount = count($products);
 $cart = new ShoppingCart(); 
 
-if (isset($_GET['id'])) {
-    $prod = $getprod->getProductById($_GET['id']);
-}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf_token();
 
@@ -33,26 +31,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
     <?php include 'includes/header.php'; ?>
 
-    <!-- Main Content -->
-     <main>
-    <h1 class="margin70 center">Our Comic Books</h1>
-            <p class="center">Browse our collection of comic books.</p>
-  
+    <main class="shop-page">
+    <section class="shop-hero mid80">
+        <p class="eyebrow">Browse the collection</p>
+        <h1>Our Comic Books</h1>
+        <p>Find Marvel, DC, and other comic picks in one catalog.</p>
+    </section>
+
     <section class="mid80">
-    <h1><img src="images/icons/marvel.png" class="width35" /> All Collection</h1><br />
-    <div class="sort-options">
-            <form method="get" action="">
-                <label for="sort" class="sort bold">Sort by:</label>
-                <select class="sort" name="sort" id="sort" onchange="this.form.submit()">
-                    <?php foreach ($sortOptions as $value => $label): ?>
-                        <option value="<?= htmlspecialchars($value) ?>" <?= $sort === $value ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($label) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </form>
+        <div class="shop-toolbar">
+            <div>
+                <h2><img src="images/icons/marvel.png" class="width35" alt="" /> All Collection</h2>
+                <p><?= htmlspecialchars($productCount) ?> comics available</p>
+            </div>
+
+            <form method="get" action="shop.php" class="sort-options">
+                <label for="sort" class="bold">Sort by</label>
+                <select name="sort" id="sort" onchange="this.form.submit()">
+                        <?php foreach ($sortOptions as $value => $label): ?>
+                            <option value="<?= htmlspecialchars($value) ?>" <?= $sort === $value ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($label) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </form>
         </div>
-        <div class="clearfix"></div>
+
         <div class="productgrid">
         <?php
 
@@ -61,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pid = (int) $product['id'];
                 $pname = htmlspecialchars($product["name"]);
                 $pdescription = htmlspecialchars($product["description"]);
-                $pprice = htmlspecialchars($product["price"]);
+                $pprice = number_format((float) $product["price"], 2);
                 $pimage = htmlspecialchars($product["image"]);
 
                 echo '
@@ -70,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 '.csrf_field().'
                 <input type="hidden" name="product_id" value="'.$pid.'">
                 <a href="viewProduct.php?id='.$pid.'">
-                <img src="'.$pimage.'" alt="Product.'.$pname.'" width="100%" class="scale" />
+                <img src="'.$pimage.'" alt="'.$pname.'" width="100%" class="scale" />
                 </a>
                 <p class="pname"><a href="viewProduct.php?id='.$pid.'" class="none">'.$pname.'</a></p> 
                 <p class="desc">'. $pdescription.'</p>
@@ -83,11 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ';
             }
         } else {
-            echo "No products found.";
+            echo '<div class="error"><p>No products found.</p></div>';
         }
         ?>
         </div>
-        <div class="clearfix"></div>
 
     </section>
 
